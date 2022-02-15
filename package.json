@@ -1,0 +1,24 @@
+{
+  "name": "myadmin",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.12"
+  },
+  "devDependencies": {
+    "@vicons/fa": "^0.12.0",
+    "@vicons/ionicons5": "^0.12.0",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "less": "^4.1.2",
+    "less-loader": "^6.0.0",
+    "naive-ui": "^2.25.1",
+    "vfonts": "^0.0.3",
+    "vite": "^2.8.0"
+  }
+}

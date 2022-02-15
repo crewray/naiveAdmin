@@ -14,7 +14,7 @@
 import { h, ref } from 'vue';
 import { Home, HomeOutline } from '@vicons/ionicons5';
 import { NMenu, NIcon } from 'naive-ui';
-import {Dev} from '@vicons/fa'
+import {Dev, User} from '@vicons/fa'
 import router, {routes} from '../../router';
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -25,6 +25,12 @@ const menuOptions=[
         path:'/',
         key:'home',
         icon:renderIcon(Home)
+    },
+    {
+      label:'用户管理',
+      path:'/user',
+      key:'user',
+      icon:renderIcon(User)
     },
     {
         label:'demo',

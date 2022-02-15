@@ -16,6 +16,7 @@
         <SideBar/>
       </n-layout-sider>
       <n-layout>
+        <Breadcrumb/>
         <router-view></router-view>
       </n-layout>
     </n-layout>
@@ -54,15 +55,15 @@ import {
 
 import Header from "../../components/Header.vue";
 import SideBar from "./SideBar.vue";
+import Breadcrumb from "./Breadcrumb.vue";
 
 
 
 
 
 export default defineComponent({
-  components: { NLayout, NLayoutSider, NLayoutHeader, Header, SideBar },
+  components: { NLayout, NLayoutSider, NLayoutHeader, Header, SideBar,Breadcrumb },
   setup() {
-    
     return {
       inverted: true,
     };

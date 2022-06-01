@@ -10,8 +10,12 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, onMounted } from "vue";
 import { NDataTable, NCard } from "naive-ui";
+import { getUserList } from "@/api/sys";
+
+const userList=await getUserList();
+console.log(userList)
 
 const columns = [
   {
@@ -37,6 +41,10 @@ const data = Array.apply(null, { length: 46 }).map((_, index) => ({
 
 export default defineComponent({
   components: { NDataTable, NCard },
+  onMounted(){
+    const userList=await getUserList();
+    console.log(userList)
+  },
   setup() {
     const paginationReactive = reactive({
       page: 2,

@@ -57,21 +57,45 @@ const routes = [{
         ]
     },
     {
-        path: '/user',
-        name: 'user',
-        redirect: '/user/list',
+        path: '/sys',
+        name: 'sys',
+        redirect: '/sys/user',
         meta: {
-            title: '用户',
+            title: '系统管理',
         },
         component: Layout,
-        children: [{
-            path: 'list',
-            name: 'userList',
-            meta: {
-                title: '用户列表',
+        children:[
+            {
+                path: 'user',
+                name: 'user',
+                meta: {
+                    title: '用户管理',
+                    icon: 'User',
+                },
+                component: () => import('@/pages/sys/user.vue'),
+
             },
-            component:()=> import('@/pages/user/index.vue')
-        }]
+            {
+                path: 'role',
+                name: 'role',
+                meta: {
+                    title: '角色管理',
+                    icon: 'Role',
+                },
+                component: () => import('@/pages/sys/role.vue'),
+            },
+            {
+                path:'permission',
+                name:'permission',
+                meta:{
+                    title:'权限管理',
+                    icon:'Permission',
+                },
+                component:()=>import('@/pages/sys/permission.vue'),
+            }
+
+
+        ]
     }
 ]
 

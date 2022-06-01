@@ -1,6 +1,6 @@
 <template>
   <n-layout class="layout">
-    <n-layout-header :inverted="true" class="header"> <Header></Header> </n-layout-header>
+    <!-- <n-layout-header :inverted="true" class="header"> <Header></Header> </n-layout-header> -->
 
     <n-layout class="side-container" has-sider>
       <n-layout-sider
@@ -38,7 +38,6 @@ html,body,#app{
   }
   .side-container{
     height: 100%;
-    padding-top: 50px;
 
   }
   

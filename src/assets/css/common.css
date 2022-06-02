@@ -68,6 +68,10 @@ body {
     justify-content: space-around;
 }
 
+.jc-fe{
+    justify-content: flex-end;
+}
+
 .aic {
     align-items: center;
 }

@@ -1,29 +1,54 @@
 <template>
-<div>
-  <n-card class="box-card" title="用户数据">
-    <n-data-table
-      ref="table"
-      :columns="column"
-      :data="userList"
-      :pagination="pagination"
-    />
-  </n-card>
-  
-</div>
-  
+  <div>
+    <n-card class="box-card" title="用户数据">
+      <n-button @click="addOrEditUser('添加用户')" class="mb-10" size="small" type="info">
+        <template #icon>
+          <n-icon  color="#fff">
+            <AddCircle16Regular></AddCircle16Regular>
+          </n-icon>
+        </template>
+        添加
+        </n-button>
+      <n-data-table
+        ref="table"
+        :columns="column"
+        :data="userList"
+        :pagination="pagination"
+      />
+    </n-card>
+  </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, ref, h, render } from "vue";
-import { NDataTable, NCard, NButton, useDialog, NDialogProvider } from "naive-ui";
+import {
+  defineComponent,
+  onMounted,
+  reactive,
+  ref,
+  h,
+  render,
+  readonly,
+  getCurrentInstance,
+} from "vue";
+import {
+  NDataTable,
+  NCard,
+  NButton,
+  useDialog,
+  NDialogProvider,
+  NIcon,
+  NTag,
+} from "naive-ui";
 import { getUserList } from "/api/sys";
-import  UserForm from "./components/UserForm.vue";
+import UserForm from "./components/UserForm.vue";
+import { EditRegular } from "@vicons/fa";
+import {Edit16Regular,Delete16Regular,AddCircle16Regular} from "@vicons/fluent"
 
 // console.log(import.meta.env)
 
 export default defineComponent({
-  components: { NDataTable, NCard,NButton,NDialogProvider },
-  
+  components: { NDataTable, NCard,NIcon, NButton, NDialogProvider, UserForm,Edit16Regular,Delete16Regular,AddCircle16Regular,NTag },
+
   setup() {
     const paginationReactive = reactive({
       page: 1,
@@ -38,29 +63,44 @@ export default defineComponent({
         paginationReactive.page = 1;
       },
     });
-    // const userList = [{key:0,uid:1,account:"admin",password:"123456"}];
-    const userList = ref([]);
+    const userList = reactive([]);
     const getUser = async () => {
       const res = await getUserList();
-      userList.value = res.data.data;
+      Object.assign(userList, res.data.data);
     };
-    const dialog=useDialog();
-    const editUser = (row, index) => {
-      
+
+    const dialog = useDialog();
+    const user_form = ref();
+    
+
+    const addOrEditUser = (title,row, index) => {
       dialog.create({
-        title: "编辑用户",
-        content: ()=>h(UserForm,{row:row,index:index}),
-        
-        // onClose: async (data) => {
-        //   if (data) {
-        //     const res = await getUserList();
-        //     userList.value = res.data.data;
-        //   }
-        // },
+        title,
+        content: () =>
+          h(UserForm, {
+            ref: user_form,
+            row,
+            index,
+          }),
+
+        maskClosable: false,
+        positiveText: "保存",
+        negativeText: "取消",
+        onPositiveClick: () => {
+          const user=user_form.value.user
+          if(row){
+            userList[index] = user;
+            return
+          }
+          user.uid=userList[userList.length-1].uid+1
+          userList.push(user)
+          
+        },
       });
     };
+
     const deleteUser = (id, index) => {
-      userList.value.splice(index, 1);
+      userList.splice(index+1, 1);
     };
     const column = [
       {
@@ -72,12 +112,15 @@ export default defineComponent({
         key: "username",
       },
       {
-        title: "密码",
-        key: "password",
-      },
-      {
         title: "角色",
         key: "role",
+        render:(row,index)=>{
+          return h(NTag,{
+            type:row.role_id==1?'info':row.role_id==2?'success':'default'
+          },{
+            default:()=>row.role_id==1?'超级管理员':row.role_id==2?'管理员':'普通用户'
+          })
+        }
       },
       {
         title: "操作",
@@ -88,18 +131,21 @@ export default defineComponent({
               NButton,
               {
                 size: "small",
-                type: "primary",
+                type: "info",
+                
                 onClick: () => {
-                  editUser(row, index);
+                  addOrEditUser('编辑用户',row, index);
                 },
               },
-              { default: () => "编辑" }
+              { default: () => "编辑",
+               }
             ),
             h(
               NButton,
               {
                 size: "small",
-                type: "warning",
+                type: "error",
+                
                 style: { marginLeft: "10px" },
                 onClick: () => {
                   deleteUser(row.uid);
@@ -116,6 +162,9 @@ export default defineComponent({
       userList,
       column,
       pagination: paginationReactive,
+      user_form,
+      AddCircle16Regular,
+      addOrEditUser
     };
   },
 });

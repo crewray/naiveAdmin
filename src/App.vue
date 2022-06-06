@@ -18,9 +18,7 @@ import { NDialogProvider, NMessageProvider } from "naive-ui";
 <style>
 @import "@/assets/css/reset.css";
 @import "@/assets/css/common.css";
-.box-card {
-  margin: 10px;
-}
+
 /* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

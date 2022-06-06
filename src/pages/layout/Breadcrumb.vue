@@ -1,5 +1,5 @@
 <template>
-  <n-breadcrumb class="bread" separator=">">
+  <n-breadcrumb class="bread pl-10 pt-10 pb-10" separator=">">
     <n-breadcrumb-item
       v-for="(item,index) in breadData"
       :key="item.path"
@@ -45,5 +45,8 @@ watch(
 </script>
 
 <style lang="less">
+.bread{
+
+}
 
 </style>

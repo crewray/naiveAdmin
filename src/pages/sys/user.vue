@@ -39,7 +39,7 @@ import {
   NIcon,
   NTag,
 } from "naive-ui";
-import { getUserList } from "/api/sys";
+import { getUserList } from "@/api/sys";
 import UserForm from "./components/UserForm.vue";
 import { EditRegular } from "@vicons/fa";
 import {Edit16Regular,Delete16Regular,AddCircle16Regular} from "@vicons/fluent"
@@ -100,7 +100,7 @@ export default defineComponent({
     };
 
     const deleteUser = (id, index) => {
-      userList.splice(index+1, 1);
+      userList.splice(index, 1);
     };
     const column = [
       {
@@ -148,7 +148,7 @@ export default defineComponent({
                 
                 style: { marginLeft: "10px" },
                 onClick: () => {
-                  deleteUser(row.uid);
+                  deleteUser(row,index);
                 },
               },
               { default: () => "删除" }

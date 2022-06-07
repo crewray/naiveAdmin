@@ -8,6 +8,8 @@ vite文档:https://cn.vitejs.dev/
 
 vue3文档：https://v3.cn.vuejs.org/guide/introduction.html
 
+fastmock: https://www.fastmock.site/#/
+
 ## 安装
 
 `npm i或 yarn install`

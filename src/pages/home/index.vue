@@ -1,25 +1,25 @@
 <template>
-  <div class="mt-30">
-    <n-row class="tac">
-      <n-col :span="12">
-        <n-statistic label="统计数据" :value="99">
-          <template #prefix>
-            <n-icon>
-              <md-save />
-            </n-icon>
-          </template>
-          <template #suffix> / 100 </template>
-        </n-statistic>
-      </n-col>
-      <n-col :span="12">
-        <n-statistic label="活跃用户"> 1,234,123 </n-statistic>
-      </n-col>
-    </n-row>
-    <n-row class="pl-10 pr-10">
-      <n-card>
+  <div class="mt-30 pl-20 pr-20 pt-20 pb-20">
+    <n-card>
+      <n-row class="tac">
+        <n-col :span="12">
+          <n-statistic label="统计数据" :value="99">
+            <template #prefix>
+              <n-icon>
+                <md-save />
+              </n-icon>
+            </template>
+            <template #suffix> / 100 </template>
+          </n-statistic>
+        </n-col>
+        <n-col :span="12">
+          <n-statistic label="活跃用户"> 1,234,123 </n-statistic>
+        </n-col>
+      </n-row>
+      <n-row class="pl-10 pt-30 pr-10">
         <div id="main"></div>
-      </n-card>
-    </n-row>
+      </n-row>
+    </n-card>
   </div>
 </template>
 
@@ -27,9 +27,9 @@
 import * as echarts from "echarts";
 import { MdSave } from "@vicons/ionicons4";
 import { NIcon, NCard, NRow, NCol, NStatistic } from "naive-ui";
-import { onMounted,onBeforeUnmount } from "vue";
+import { onMounted, onBeforeUnmount } from "vue";
 
-onMounted(draw)
+onMounted(draw);
 
 let myChart = null;
 
@@ -60,7 +60,7 @@ function draw() {
         // 纵轴数据
         data: [120, 200, 150, 80, 70, 110, 130],
         // 类型为柱状
-        type: "bar",
+        type: "line",
         // 显示背景颜色
         showBackground: true,
         // 背景颜色
@@ -75,7 +75,7 @@ function draw() {
 }
 onBeforeUnmount(() => {
   myChart.dispose();
-})
+});
 </script>
 
 <style scoped lang="less">

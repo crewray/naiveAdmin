@@ -1,6 +1,6 @@
 # naiveAdmin
 
-一个基于vite+vue3+naiveUI的后台管理系统
+一个基于vite+vue3+naiveUI的admin模板,用与快速搭建后台管理系统
 
 naiveUI文档:https://www.naiveui.com/zh-CN/os-theme
 

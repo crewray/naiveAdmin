@@ -125,7 +125,7 @@ const login = () => {
   // console.log(md5(img_code.value));
   if (md5(img_code.value) !== data.img_code) {
     message.error("验证码错误");
-    // changeImageCode();
+    changeImageCode();
     return;
   }
   setUserId(user.uid);

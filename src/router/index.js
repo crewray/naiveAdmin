@@ -23,36 +23,7 @@ const routes = [
       },
     ],
   },
-  {
-    path: "/demo",
-    meta: {
-      title: "demo",
-      icon: "Dev",
-    },
-    name: "demo",
-    component: Layout,
-    redirect: "/demo/demo1",
-    children: [
-      {
-        path: "demo1",
-        meta: {
-          title: "demo1",
-          icon: "Dev",
-        },
-        name: "demo1",
-        component: () => import("@/pages/demo/demo1.vue"),
-      },
-      {
-        path: "demo2",
-        meta: {
-          title: "demo2",
-          icon: "Dev",
-        },
-        name: "demo2",
-        component: () => import("@/pages/demo/demo2.vue"),
-      },
-    ],
-  },
+  
   {
     path: "/sys",
     name: "sys",

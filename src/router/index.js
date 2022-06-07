@@ -105,23 +105,23 @@ const routes = [
     redirect: "/404/notfound",
     component: () => Layout,
     meta: {
-        title: "404",
+      title: "404",
     },
-    children:[
-        {
-            path: "notfound",
-            name: "notfound",
-            meta: {
-                title: "notfound",
-            },
-            component: () => import("@/components/NotFound.vue"),
-        }
-    ]
+    children: [
+      {
+        path: "notfound",
+        name: "notfound",
+        meta: {
+          title: "notfound",
+        },
+        component: () => import("@/components/NotFound.vue"),
+      },
+    ],
   },
   {
     path: "/:catchAll(.*)",
     redirect: "/404",
-  }
+  },
 ];
 
 export { routes };
@@ -132,6 +132,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
   if (to.path === "/login") {
     next();
   } else {

@@ -62,26 +62,26 @@ const menuOptions=[
         },
       ]
     },
-    {
-        label:'demo',
-        key:'demo',
-        path:'/demo',
-        icon:renderIcon(Dev),
-        children:[
-          {
-            label:'demo1',
-            key:'demo1',
-            path:'/demo/demo1',
-            icon:renderIcon(Dev),
-          },
-          {
-            label:'demo2',
-            key:'demo2',
-            path:'/demo/demo2',
-            icon:renderIcon(Dev),
-          },
-        ]
-    }
+    // {
+    //     label:'demo',
+    //     key:'demo',
+    //     path:'/demo',
+    //     icon:renderIcon(Dev),
+    //     children:[
+    //       {
+    //         label:'demo1',
+    //         key:'demo1',
+    //         path:'/demo/demo1',
+    //         icon:renderIcon(Dev),
+    //       },
+    //       {
+    //         label:'demo2',
+    //         key:'demo2',
+    //         path:'/demo/demo2',
+    //         icon:renderIcon(Dev),
+    //       },
+    //     ]
+    // }
 ]
 
 let actived=ref('')

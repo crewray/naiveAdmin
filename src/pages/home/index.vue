@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="mt-30" >
     <n-row class="tac">
     <n-col :span="12">
       <n-statistic label="统计数据" :value="99">

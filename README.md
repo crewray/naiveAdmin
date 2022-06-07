@@ -19,3 +19,7 @@ vue3文档：https://v3.cn.vuejs.org/guide/introduction.html
 ## 打包
 
 ` npm run build`
+
+## 预览
+
+[demo](http://naive.laolei.ml/)

@@ -57,7 +57,7 @@ if (breadData.value[1].path == "/home") {
 watch(
   () => route.matched,
   (newVal, oldVal) => {
-    console.log(newVal);
+    // console.log(newVal);
     if (newVal[1] && newVal[1].path == "/home") {
       //首页
       breadData.value = [{ path: "/home", meta: { title: "首页" } }];

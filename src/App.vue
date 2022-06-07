@@ -1,5 +1,18 @@
 <script setup>
 import { NDialogProvider, NMessageProvider } from "naive-ui";
+import {provide,ref,readonly} from 'vue'
+import router from '@/router/index.js'
+let userId=ref(localStorage.getItem('userId'))
+const setUserId=(id)=>{
+  userId.value=id
+  localStorage.setItem('userId',id)
+}
+provide('userId',readonly(userId))
+provide('setUserId',setUserId)
+
+
+
+
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 // import HelloWorld from './components/HelloWorld.vue'

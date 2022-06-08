@@ -15,9 +15,9 @@
       >
         <SideBar/>
       </n-layout-sider>
-      <n-layout>
+      <n-layout class="bg-f4f4f4">
         <Breadcrumb/>
-        <router-view></router-view>
+        <router-view class="pl-10 pr-10 pt-10" ></router-view>
       </n-layout>
     </n-layout>
   </n-layout>

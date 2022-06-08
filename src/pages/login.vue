@@ -1,5 +1,5 @@
 <template>
-  <div class="login-wrap">
+  <div class="login-wrap ">
     <div class="login">
       <div class="titile tac f666 mt-15 mb-10 f20">
         excitingAdmin后台管理系统
@@ -94,7 +94,9 @@ let password = ref("123456");
 let img_code = ref("");
 
 let userId = inject("userId");
+const userObj=inject("user")
 const setUserId = inject("setUserId");
+const setUser = inject("setUser");
 const router = useRouter();
 
 const message = useMessage();
@@ -128,7 +130,9 @@ const login = () => {
     changeImageCode();
     return;
   }
-  setUserId(user.uid);
+  setUser(user)
+  // setUserId(user.uid);
+  
   router.push("/");
   message.success("登录成功");
 

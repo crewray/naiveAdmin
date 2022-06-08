@@ -109,12 +109,22 @@ router.beforeEach((to, from, next) => {
   if (to.path === "/login") {
     next();
   } else {
-    const user_id = localStorage.getItem("userId");
-    if (!user_id) {
-      next("/login");
-    } else {
+    // const user_id = localStorage.getItem("userId");
+    const userStr=localStorage.getItem("userInfo");
+    const user=JSON.parse(userStr);
+    if(user&&user.uid){
       next();
     }
+    else{
+      console.log("未登录");
+      next("/login");
+    }
+    // let user_id=user.uid;
+    // if (!user.uid||!user) {
+    //   next("/login");
+    // } else {
+    //   next();
+    // }
   }
 });
 

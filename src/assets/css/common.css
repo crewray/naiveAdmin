@@ -22,6 +22,9 @@ body {
 .bg-fff {
     background: #ffffff;
 }
+.bg-f4f4f4 {
+    background: #f4f4f4;
+}
 
 .dsn {
     display: none;
@@ -45,6 +48,9 @@ body {
 
 .w100 {
     width: 100%;
+}
+.h100 {
+    height: 100%;
 }
 
 /* flex公共样式 */
@@ -340,4 +346,8 @@ body {
 
 .red{
     color: #c03131;
+}
+
+.pointer{
+    cursor: pointer;
 }

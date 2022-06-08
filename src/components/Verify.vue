@@ -6,7 +6,7 @@
 
 <script setup>
 import md5 from "js-md5";
-import { toRefs, onMounted, watch, defineProps, defineEmits } from "vue";
+import { toRefs, onMounted, watch } from "vue";
 const props = defineProps({
   change: {
     // 刷新验证码使用

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex jc-sb aic pr-20">
-    <n-breadcrumb class="bread pl-10 pt-10 pb-10" separator=">">
+  <div class="flex bg-fff jc-sb aic pr-20 pl-10 pt-5 pb-5">
+    <n-breadcrumb class="bread" separator=">">
       <n-breadcrumb-item v-for="(item, index) in breadData" :key="item.path">
         <template
           v-if="
@@ -16,31 +16,71 @@
       </n-breadcrumb-item>
     </n-breadcrumb>
 
-    <n-popconfirm
-      @positive-click="logout"
-      v-if="userId"
-      positive-text="确定"
-      negative-text="取消"
+    <n-popover
+      placement="bottom-end"
+      trigger="click"
     >
       <template #trigger>
-        <n-button  size="small" type="info"
-          >退出登录</n-button>
+        <div class="flex pointer aic">
+          <img class="avatar" src="@/assets/images/avatar.gif" alt="" />
+          <span class="ml-10 mr-5">{{ user.username }}</span>
+          <n-icon size="18" :component="CaretDown"></n-icon>
+        </div>
       </template>
-      确定退出登录?
-    </n-popconfirm>
+      <span class="pointer" @click="logout">退出登录</span>
+    </n-popover>
+
+    <!-- <div class="logout" v-show="showLogout">
+        <n-popconfirm
+        @positive-click="logout"
+        
+        positive-text="确定"
+        negative-text="取消"
+      >
+        <template #trigger>
+          <n-button size="small" type="info">退出登录</n-button>
+        </template>
+        确定退出登录?
+      </n-popconfirm>
+      </div> -->
   </div>
 </template>
 
 <script setup>
-import { NBreadcrumb, NBreadcrumbItem, NButton, NPopconfirm } from "naive-ui";
+import {
+  NBreadcrumb,
+  NBreadcrumbItem,
+  NButton,
+  NPopconfirm,
+  NIcon,
+  NDropdown,
+  NPopover,
+} from "naive-ui";
+import { CaretDown } from "@vicons/fa";
 import router from "../../router";
 import { useRoute, useRouter } from "vue-router";
 import { watch, ref, inject } from "vue";
+// let showLogout = ref(false);
+const options = [
+  {
+    label: "退出登录",
+    onClick: () => {
+      logout();
+    },
+    key: "logout",
+  },
+];
+const handleSelect = (key, option) => {
+  option.onClick();
+};
 const userId = inject("userId");
 const setUserId = inject("setUserId");
+const user = inject("user");
+const setUser = inject("setUser");
 const $router = useRouter();
 const logout = () => {
-  setUserId("");
+  // setUserId("");
+  setUser({});
   $router.push("/login");
 };
 const route = useRoute();
@@ -71,6 +111,8 @@ watch(
 </script>
 
 <style lang="less">
-.bread {
+.avatar {
+  width: 40px;
+  height: 40px;
 }
 </style>

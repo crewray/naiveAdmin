@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    <n-card class="box-card" title="用户数据">
+  <div >
+    <n-card class="box-card h100" title="用户数据">
       <n-button @click="addOrEditUser('添加用户')" class="mb-10" size="small" type="info">
         <template #icon>
           <n-icon  color="#fff">

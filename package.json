@@ -24,8 +24,6 @@
     "less": "^4.1.2",
     "less-loader": "^6.0.0",
     "naive-ui": "^2.25.1",
-    "unplugin-auto-import": "^0.8.6",
-    "unplugin-vue-components": "^0.19.6",
     "vfonts": "^0.0.3",
     "vite": "^2.8.0"
   }

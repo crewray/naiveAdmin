@@ -63,6 +63,62 @@ const routes = [
     ],
   },
   {
+    path: "/echart",
+    name: "echart",
+    redirect: "/echart/line",
+    meta: {
+      title: "图表",
+    },
+    component: Layout,
+    children: [
+      {
+        path: "line",
+        name: "line",
+        meta: {
+          title: "折线图",
+          icon: "Line",
+        },
+        component: () => import("@/pages/echart/line.vue"),
+      },
+      {
+        path: "bar",
+        name: "bar",
+        meta: {
+          title: "柱状图",
+          icon: "Bar",
+        },
+        component: () => import("@/pages/echart/bar.vue"),
+      },
+      {
+        path: "pie",
+        name: "pie",
+        meta: {
+          title: "饼图",
+          icon: "Pie",
+        },
+        component: () => import("@/pages/echart/pie.vue"),
+      },
+      {
+        path: "radar",
+        name: "radar",
+        meta: {
+          title: "雷达图",
+          icon: "Radar",
+        },
+        component: () => import("@/pages/echart/radar.vue"),
+      },
+      {
+        path: "ring",
+        name: "ring",
+        meta: {
+          title: "环形图",
+          icon: "Ring",
+        },
+        component: () => import("@/pages/echart/ring.vue"),
+      }
+    ]
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("@/pages/login.vue"),

@@ -15,9 +15,9 @@
       >
         <SideBar/>
       </n-layout-sider>
-      <n-layout class="bg-f4f4f4">
+      <n-layout class="bg-f4f4f4 right">
         <Breadcrumb/>
-        <router-view class="pl-10 pr-10 pt-10" ></router-view>
+        <router-view class="pl-10 pr-10 pt-10 pb-10 fg1" ></router-view>
       </n-layout>
     </n-layout>
   </n-layout>
@@ -39,6 +39,13 @@ html,body,#app{
   .side-container{
     height: 100%;
 
+  }
+  .right{
+    .n-layout-scroll-container{
+      display: flex;
+      flex-direction: column;
+
+    }
   }
   
 }

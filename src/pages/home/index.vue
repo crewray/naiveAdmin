@@ -1,87 +1,16 @@
 <template>
-  <div class="mt-30 pl-20 pr-20 pt-20 pb-20">
-    <n-card>
-      <n-row class="tac">
-        <n-col :span="12">
-          <n-statistic label="统计数据" :value="99">
-            <template #prefix>
-              <n-icon>
-                <md-save />
-              </n-icon>
-            </template>
-            <template #suffix> / 100 </template>
-          </n-statistic>
-        </n-col>
-        <n-col :span="12">
-          <n-statistic label="活跃用户"> 1,234,123 </n-statistic>
-        </n-col>
-      </n-row>
-      <n-row class="pl-10 pt-30 pr-10">
-        <div id="main"></div>
-      </n-row>
+  <div class="">
+    <n-card class=" box-card h100">
+      <img class="w100" src="@/assets/images/welcome.png" alt="welcome">
     </n-card>
   </div>
 </template>
 
 <script setup>
-import * as echarts from "echarts";
-import { MdSave } from "@vicons/ionicons4";
-import { NIcon, NCard, NRow, NCol, NStatistic } from "naive-ui";
-import { onMounted, onBeforeUnmount } from "vue";
+import {NCard} from 'naive-ui'
 
-onMounted(draw);
-
-let myChart = null;
-
-function draw() {
-  // 获取节点
-  var chartDom = document.getElementById("main");
-  // 初始化echarts
-  myChart = echarts.init(chartDom);
-  // 图标选项设置
-  var option = {
-    // 标题
-    title: {
-      text: "本周销量",
-      x: "center",
-    },
-    // 横轴
-    xAxis: {
-      type: "category",
-      // 横轴数据
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    },
-    // 纵轴
-    yAxis: {
-      type: "value",
-    },
-    series: [
-      {
-        // 纵轴数据
-        data: [120, 200, 150, 80, 70, 110, 130],
-        // 类型为柱状
-        type: "line",
-        // 显示背景颜色
-        showBackground: true,
-        // 背景颜色
-        backgroundStyle: {
-          color: "rgba(180, 180, 180, 0.2)",
-        },
-      },
-    ],
-  };
-  // 把选项放入echart对象
-  myChart.setOption(option);
-}
-onBeforeUnmount(() => {
-  myChart.dispose();
-});
 </script>
 
 <style scoped lang="less">
-#main {
-  width: 100%;
-  height: 600px;
-  margin: auto;
-}
+
 </style>

@@ -18,7 +18,7 @@
 import { h, ref } from 'vue';
 import { Home, HomeOutline, Menu } from '@vicons/ionicons5';
 import { NMenu, NIcon } from 'naive-ui';
-import {Dev, User,UserEdit, ChartBar} from '@vicons/fa'
+import {Dev, User,UserEdit, ChartBar,Wpforms, Edit,Upload} from '@vicons/fa'
 import {MdSettings} from '@vicons/ionicons4'
 import router, {routes} from '../../router';
 function renderIcon(icon) {
@@ -73,6 +73,26 @@ const menuOptions=[
           icon:renderIcon(ChartBar),
         }
 
+      ]
+    },
+    {
+      label:'表单组件',
+      path:'/form',
+      key:'form',
+      icon:renderIcon(Wpforms),
+      children:[
+        {
+          label:'富文本编辑器',
+          path:'/form/editor',
+          key:'editor',
+          icon:renderIcon(Edit),
+        },
+        {
+          label:'上传组件',
+          path:'/form/upload',
+          key:'upload',
+          icon:renderIcon(Upload),
+        }
       ]
     },
     {

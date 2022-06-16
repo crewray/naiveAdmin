@@ -119,6 +119,36 @@ const routes = [
     ]
   },
   {
+    path:"/form",
+    name:"form",
+    redirect:"/form/editor",
+    meta:{
+      title:"表单组件",
+      },
+    component:Layout,
+    children:[
+      {
+        path:"editor",
+        name:"editor",
+        meta:{
+          title:"富文本编辑器",
+          icon:"Editor",
+        },
+        component:()=>import("@/pages/form/editor.vue"),
+      },
+      {
+        path:"upload",
+        name:"upload",
+        meta:{
+          title:"上传组件",
+          icon:"Upload",
+        },
+        component:()=>import("@/pages/form/upload.vue"),
+      }
+    ]
+
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("@/pages/login.vue"),

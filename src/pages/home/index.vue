@@ -2,6 +2,7 @@
   <div class="">
     <n-card class=" box-card h100">
       <img class="w100" src="@/assets/images/welcome.png" alt="welcome">
+
     </n-card>
   </div>
 </template>

@@ -205,12 +205,7 @@ router.beforeEach((to, from, next) => {
       console.log("未登录");
       next("/login");
     }
-    // let user_id=user.uid;
-    // if (!user.uid||!user) {
-    //   next("/login");
-    // } else {
-    //   next();
-    // }
+  
   }
 });
 

@@ -5,6 +5,7 @@
     :collapsed-icon-size="22"
     :options="menuOptions"
     :value="actived"
+    :collapsed="collapsed"
     @update:value="handleUpdateValue"
     class="side-menu"
   />
@@ -15,7 +16,7 @@
 </style>
 
 <script setup>
-import { h, ref } from 'vue';
+import { h, ref,inject } from 'vue';
 import { Home, HomeOutline, Menu } from '@vicons/ionicons5';
 import { NMenu, NIcon } from 'naive-ui';
 import {Dev, User,UserEdit, ChartBar,Wpforms, Edit,Upload} from '@vicons/fa'
@@ -124,6 +125,8 @@ function handleUpdateValue(key,item){
   actived.value=key
   router.push(item.path)
 }
+
+
 
 </script>
 

@@ -1,25 +1,22 @@
 <template>
   <div class="flex bg-fff jc-sb aic pr-20 pl-10 pt-5 pb-5">
-    <n-breadcrumb class="bread" separator=">">
-      <n-breadcrumb-item v-for="(item, index) in breadData" :key="item.path">
-        <template
-          v-if="
-            index != breadData.length - 1 &&
-            item.redirect != breadData[breadData.length - 1].path
-          "
-        >
-          <router-link :to="{ path: item.path }">{{
-            item.meta.title
-          }}</router-link>
-        </template>
-        <template v-else>{{ item.meta.title }}</template>
-      </n-breadcrumb-item>
-    </n-breadcrumb>
+      <n-breadcrumb class="bread" separator=">">
+        <n-breadcrumb-item v-for="(item, index) in breadData" :key="item.path">
+          <template
+            v-if="
+              index != breadData.length - 1 &&
+              item.redirect != breadData[breadData.length - 1].path
+            "
+          >
+            <router-link :to="{ path: item.path }">{{
+              item.meta.title
+            }}</router-link>
+          </template>
+          <template v-else>{{ item.meta.title }}</template>
+        </n-breadcrumb-item>
+      </n-breadcrumb>
 
-    <n-popover
-      placement="bottom-end"
-      trigger="click"
-    >
+    <n-popover placement="bottom-end" trigger="click">
       <template #trigger>
         <div class="flex pointer aic">
           <img class="avatar" src="@/assets/images/avatar.gif" alt="" />
@@ -29,20 +26,6 @@
       </template>
       <span class="pointer" @click="logout">退出登录</span>
     </n-popover>
-
-    <!-- <div class="logout" v-show="showLogout">
-        <n-popconfirm
-        @positive-click="logout"
-        
-        positive-text="确定"
-        negative-text="取消"
-      >
-        <template #trigger>
-          <n-button size="small" type="info">退出登录</n-button>
-        </template>
-        确定退出登录?
-      </n-popconfirm>
-      </div> -->
   </div>
 </template>
 
@@ -56,6 +39,7 @@ import {
   NDropdown,
   NPopover,
 } from "naive-ui";
+import { MenuFoldOutlined } from "@vicons/antd";
 import { CaretDown } from "@vicons/fa";
 import router from "../../router";
 import { useRoute, useRouter } from "vue-router";
@@ -108,6 +92,7 @@ watch(
     }
   }
 );
+
 </script>
 
 <style lang="less">

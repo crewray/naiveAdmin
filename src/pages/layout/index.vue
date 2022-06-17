@@ -17,6 +17,7 @@
       </n-layout-sider>
       <n-layout class="bg-f4f4f4 right">
         <Breadcrumb/>
+        <PageStackVue/>
         <router-view class="pl-10 pr-10 pt-10 pb-10 fg1" ></router-view>
       </n-layout>
     </n-layout>
@@ -52,7 +53,7 @@ html,body,#app{
 </style>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, provide,ref } from "vue";
 import {
   NLayoutSider,
   NLayout,
@@ -62,13 +63,15 @@ import {
 import Header from "../../components/Header.vue";
 import SideBar from "./SideBar.vue";
 import Breadcrumb from "./Breadcrumb.vue";
+import PageStack from "./PageStack.vue";
+import PageStackVue from "./PageStack.vue";
 
 
 
 
 
 export default defineComponent({
-  components: { NLayout, NLayoutSider, NLayoutHeader, Header, SideBar,Breadcrumb },
+  components: { NLayout, NLayoutSider, NLayoutHeader, Header, SideBar, Breadcrumb, PageStackVue },
   setup() {
     return {
       inverted: true,

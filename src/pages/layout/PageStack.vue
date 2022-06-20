@@ -1,18 +1,15 @@
 <template>
   <div class="tags mt-10 pl-10">
     <n-space>
-      <!-- <n-tag closable @close="handleClose"> 爱在西元前 </n-tag>
-      <n-tag type="success" closable @close="handleClose"> 不该 </n-tag>
-      <n-tag type="warning" closable @close="handleClose"> 超人不会飞 </n-tag>
-      <n-tag type="error" closable @close="handleClose"> 手写的从前 </n-tag>
-      <n-tag type="info" closable @close="handleClose"> 哪里都是你 </n-tag> -->
       <n-tag
-        :closable="item[0] === '首页' ? false : true"
-        :type="item[1] === 1 ? 'success' : 'info'"
-        @close="close(item[0])"
+        class="pointer"
+        :closable="item[0] === '/home' ? false : true"
+        :type="item[0] === active ? 'success' : 'info'"
+        @close.stop="close(item[0])"
+        @click="switchPage(item[0])"
         v-for="item in pageStack"
         :key="item[0]"
-        >{{ item[0] }}</n-tag
+        >{{ item[1] }}</n-tag
       >
     </n-space>
   </div>
@@ -20,29 +17,36 @@
 
 <script setup>
 import { ref, reactive, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const pageMap = new Map();
-pageMap.set("首页", 0);
+pageMap.set("/home", '首页');
 const pageStack = reactive(pageMap);
-
+const active=ref('/home')
 const route = useRoute();
 watch(
-  () => route.meta,
+  () => route.matched,
   (newVal, oldVal) => {
-    let title = newVal.title;
-    if (title) {
-      pageStack.set(title, 1);
+    active.value = newVal[1].path
+    if(!pageStack.has(newVal[1].path)){
+      pageStack.set(newVal[1].path, newVal[1].meta.title)
     }
-    // console.log(oldVal,newVal)
-    if (pageStack.has(oldVal.title)) {
-      pageStack.set(oldVal.title, 0);
-    }
-    // console.log(pageStack)
+    
   }
 );
 
 const close = (item) => {
   pageStack.delete(item);
+  if(item === active.value){
+    switchPage('/home')
+  }
+};
+
+const router=useRouter()
+
+const switchPage = (item) => {
+  active.value = item;
+  router.push(item)
+  
 };
 </script>
 

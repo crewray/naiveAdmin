@@ -1,13 +1,18 @@
 <template>
-  <div >
+  <div>
     <n-card class="box-card h100" title="用户数据">
-      <n-button @click="addOrEditRole('添加角色')" class="mb-10" size="small" type="info">
-      <template #icon>
-          <n-icon  color="#fff">
+      <n-button
+        @click="addOrEditRole('添加角色')"
+        class="mb-10"
+        size="small"
+        type="info"
+      >
+        <template #icon>
+          <n-icon color="#fff">
             <AddCircle16Regular></AddCircle16Regular>
           </n-icon>
         </template>
-      添加
+        添加
       </n-button>
       <n-data-table
         ref="table"
@@ -20,11 +25,18 @@
 </template>
 
 <script setup>
-import { NDataTable, NCard, NButton, useDialog, useMessage,NIcon } from "naive-ui";
-import { h, reactive, ref } from "vue";
+import {
+  NDataTable,
+  NCard,
+  NButton,
+  useDialog,
+  useMessage,
+  NIcon,
+} from "naive-ui";
+import { h, reactive, ref, onMounted } from "vue";
 import RoleForm from "./components/RoleForm.vue";
-import { getRoleList } from "@/api/sys.js";
-import {AddCircle16Regular} from "@vicons/fluent"
+import { getRoleListApi,createRoleApi,updateRoleApi,deleteRoleApi } from "@/api/sys.js";
+import { AddCircle16Regular } from "@vicons/fluent";
 
 const message = useMessage();
 const deleteRole = (id, index) => {
@@ -49,6 +61,9 @@ const addOrEditRole = (title, row, index) => {
     onPositiveClick: () => {
       const role = role_form.value.role;
       if (row) {
+        updateRoleApi(role).then((res) => {
+          message.success("修改成功");
+        });
         roleList[index] = role;
         message.success("修改成功");
         return;
@@ -102,18 +117,25 @@ const roleList = reactive([
   // { id: 2, name: "管理员", status: 1, description: "管理员" },
   // { id: 3, name: "普通用户", status: 1, description: "普通用户" },
 ]);
-getRoleList()
-  .then((res) => {
-    if (res.status == 200) {
-      Object.assign(roleList, res.data);
-    } else {
+const getRoleList = () => {
+  getRoleListApi()
+    .then((res) => {
+      if (res.status == 200) {
+        Object.assign(roleList, res.data);
+      } else {
+        message.error("获取数据失败");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
       message.error("获取数据失败");
-    }
-  })
-  .catch((err) => {
-    console.log(err);
-    message.error("获取数据失败");
-  });
+    });
+};
+
+onMounted(() => {
+  getRoleList();
+});
+
 const pagination = {
   pageSize: 10,
 };

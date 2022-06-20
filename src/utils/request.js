@@ -9,7 +9,13 @@ const service=axios.create({
 export const get= (url,data={})=>{
     return service.get(url,{params:data})
 }
-export const post= (url,data={})=>{
+export const post= (url,data)=>{
     return service.post(url,data)
 }
 
+export const put= (url,data)=>{
+    return service.put(url+'/'+data.id,data)
+}
+export const delete_= (url,id)=>{
+    return service.delete(url+'/'+id)
+}

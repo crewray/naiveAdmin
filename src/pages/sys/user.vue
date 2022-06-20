@@ -1,14 +1,19 @@
 <template>
-  <div >
+  <div>
     <n-card class="box-card h100" title="用户数据">
-      <n-button @click="addOrEditUser('添加用户')" class="mb-10" size="small" type="info">
+      <n-button
+        @click="addOrEditUser('添加用户')"
+        class="mb-10"
+        size="small"
+        type="info"
+      >
         <template #icon>
-          <n-icon  color="#fff">
+          <n-icon color="#fff">
             <AddCircle16Regular></AddCircle16Regular>
           </n-icon>
         </template>
         添加
-        </n-button>
+      </n-button>
       <n-data-table
         ref="table"
         :columns="column"
@@ -38,18 +43,40 @@ import {
   NDialogProvider,
   NIcon,
   NTag,
+  useMessage,
 } from "naive-ui";
-import { getUserList } from "@/api/sys";
+import {
+  getUserListApi,
+  createUserApi,
+  updateUserApi,
+  deleteUserApi,
+} from "@/api/sys";
 import UserForm from "./components/UserForm.vue";
 import { EditRegular } from "@vicons/fa";
-import {Edit16Regular,Delete16Regular,AddCircle16Regular} from "@vicons/fluent"
+import {
+  Edit16Regular,
+  Delete16Regular,
+  AddCircle16Regular,
+} from "@vicons/fluent";
 
 // console.log(import.meta.env)
 
 export default defineComponent({
-  components: { NDataTable, NCard,NIcon, NButton, NDialogProvider, UserForm,Edit16Regular,Delete16Regular,AddCircle16Regular,NTag },
+  components: {
+    NDataTable,
+    NCard,
+    NIcon,
+    NButton,
+    NDialogProvider,
+    UserForm,
+    Edit16Regular,
+    Delete16Regular,
+    AddCircle16Regular,
+    NTag,
+  },
 
   setup() {
+    const message = useMessage();
     const paginationReactive = reactive({
       page: 1,
       pageSize: 5,
@@ -65,15 +92,15 @@ export default defineComponent({
     });
     const userList = reactive([]);
     const getUser = async () => {
-      const res = await getUserList();
-      Object.assign(userList, res.data.data);
+      const res = await getUserListApi();
+      // console.log(res);
+      Object.assign(userList, res.data);
     };
 
     const dialog = useDialog();
     const user_form = ref();
-    
 
-    const addOrEditUser = (title,row, index) => {
+    const addOrEditUser = (title, row, index) => {
       dialog.create({
         title,
         content: () =>
@@ -87,25 +114,66 @@ export default defineComponent({
         positiveText: "保存",
         negativeText: "取消",
         onPositiveClick: () => {
-          const user=user_form.value.user
-          if(row){
-            userList[index] = user;
-            return
+          const user = user_form.value.user;
+          if (row) {
+            
+            updateUserApi(user).then((res) => {
+              if (res.status == 200) {
+                userList[index] = user;
+                message.success("修改成功");
+              } else {
+                message.error('修改失败');
+              }
+            });
+            return;
           }
-          user.uid=userList[userList.length-1].uid+1
-          userList.push(user)
+          user.id = userList.length ? userList[userList.length - 1].id + 1 : 1;
           
+          console.log(user);
+          createUserApi(user).then((res) => {
+            console.log(res);
+            if (res.status == 201) {
+              userList.push(user);
+              message.success("添加成功");
+            } else {
+              message.error("添加失败");
+            }
+          });
         },
       });
     };
 
-    const deleteUser = (id, index) => {
-      userList.splice(index, 1);
+    const deleteUser = (row, index) => {
+      dialog.success({
+        title: "删除用户",
+        content: "确定删除该用户吗？",
+        positiveText: "确定",
+        negativeText: "取消",
+        onPositiveClick: () => {
+          deleteUserApi(row.id).then((res) => {
+            if (res.status == 200) {
+              userList.splice(index, 1);
+              message.success("删除成功");
+            } else {
+              message.error("删除失败");
+            }
+          });
+        },
+      })
+      // deleteUserApi(row.id).then((res) => {
+      //   console.log(res);
+      //   if (res.status == 200) {
+      //     userList.splice(index, 1);
+      //     message.success("删除成功");
+      //   } else {
+      //     message.error("删除失败");
+      //   }
+      // });
     };
     const column = [
       {
-        title: "Uid",
-        key: "uid",
+        title: "id",
+        key: "id",
       },
       {
         title: "用户名",
@@ -114,13 +182,27 @@ export default defineComponent({
       {
         title: "角色",
         key: "role",
-        render:(row,index)=>{
-          return h(NTag,{
-            type:row.role_id==1?'info':row.role_id==2?'success':'default'
-          },{
-            default:()=>row.role_id==1?'超级管理员':row.role_id==2?'管理员':'普通用户'
-          })
-        }
+        render: (row, index) => {
+          return h(
+            NTag,
+            {
+              type:
+                row.role_id == 1
+                  ? "info"
+                  : row.role_id == 2
+                  ? "success"
+                  : "default",
+            },
+            {
+              default: () =>
+                row.role_id == 1
+                  ? "超级管理员"
+                  : row.role_id == 2
+                  ? "管理员"
+                  : "普通用户",
+            }
+          );
+        },
       },
       {
         title: "操作",
@@ -132,23 +214,22 @@ export default defineComponent({
               {
                 size: "small",
                 type: "info",
-                
+
                 onClick: () => {
-                  addOrEditUser('编辑用户',row, index);
+                  addOrEditUser("编辑用户", row, index);
                 },
               },
-              { default: () => "编辑",
-               }
+              { default: () => "编辑" }
             ),
             h(
               NButton,
               {
                 size: "small",
                 type: "error",
-                
+
                 style: { marginLeft: "10px" },
                 onClick: () => {
-                  deleteUser(row,index);
+                  deleteUser(row, index);
                 },
               },
               { default: () => "删除" }
@@ -164,7 +245,7 @@ export default defineComponent({
       pagination: paginationReactive,
       user_form,
       AddCircle16Regular,
-      addOrEditUser
+      addOrEditUser,
     };
   },
 });

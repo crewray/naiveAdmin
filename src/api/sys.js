@@ -1,8 +1,27 @@
-import {get,post} from '@/utils/request'
+import {get,post,put,delete_} from '@/utils/request'
 
-export const getUserList= (data={})=>{
+export const getUserListApi= (data={})=>{
     return get('/user',data)
 }
-export const getRoleList= (data={})=>{
-    return get('/roleList',data)
+export const createUserApi=(data)=>{
+    return post('/user',data)
+}
+export const updateUserApi=(data)=>{
+    return put('/user',data)
+}
+export const deleteUserApi=(id)=>{
+    return delete_('/user',id)
+}
+    
+export const getRoleListApi= (data={})=>{
+    return get('/role',data)
+}
+export const createRoleApi=(data)=>{
+    return post('/role',data)
+}
+export const updateRoleApi=(data)=>{
+    return put('/role',data)
+}
+export const deleteRoleApi=(id)=>{
+    return delete_('/role',id)
 }

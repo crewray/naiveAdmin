@@ -1,0 +1,39 @@
+{
+  "user": [
+    {
+      "username": "superadmin",
+      "password": "123456",
+      "role_id": 1,
+      "id": 1
+    },
+    {
+      "username": "admin",
+      "password": "123456",
+      "role_id": 2,
+      "id": 2
+    },
+    {
+      "username": "test",
+      "password": "123456",
+      "role_id": 3,
+      "id": 3
+    }
+  ],
+  "role": [
+    {
+      "id": 1,
+      "name": "superadmin",
+      "description": "超级管理员"
+    },
+    {
+      "id": 2,
+      "name": "admin",
+      "description": "管理员"
+    },
+    {
+      "id": 3,
+      "name": "test",
+      "description": "测试角色"
+    }
+  ]
+}

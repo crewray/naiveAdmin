@@ -39,11 +39,26 @@ import { getRoleListApi,createRoleApi,updateRoleApi,deleteRoleApi } from "@/api/
 import { AddCircle16Regular } from "@vicons/fluent";
 
 const message = useMessage();
-const deleteRole = (id, index) => {
-  roleList.splice(index, 1);
-  message.success("删除成功");
-};
+
 const dialog = useDialog();
+const deleteRole = (id, index) => {
+  dialog.success({
+    title: "提示",
+    content: "确定删除该角色吗？",
+    positiveText:'确定',
+    negativeText:'取消',
+    onPositiveClick: () => {
+      deleteRoleApi(id).then((res) => {
+        if (res.status === 200) {
+          message.success('删除成功');
+          roleList.splice(index, 1);
+        } else {
+          message.error('删除失败');
+        }
+      });
+    },
+  });
+};
 const role_form = ref();
 const addOrEditRole = (title, row, index) => {
   dialog.create({
@@ -62,15 +77,27 @@ const addOrEditRole = (title, row, index) => {
       const role = role_form.value.role;
       if (row) {
         updateRoleApi(role).then((res) => {
-          message.success("修改成功");
+          if(res.status==200){
+            message.success("修改成功");
+            roleList[index] = role;
+          }else{
+            message.error('修改失败');
+          }
+          
         });
-        roleList[index] = role;
-        message.success("修改成功");
+        
         return;
       }
-      role.uid = roleList[roleList.length - 1].uid + 1;
-      roleList.push(role);
-      message.success("添加成功");
+      role.id=roleList.length?roleList[roleList.length-1].id+1:1;
+      createRoleApi(role).then((res) => {
+        if(res.status==201){
+          message.success("添加成功");
+          roleList.push(role);
+        }
+        else{
+          message.error('添加失败');
+        }
+      });
     },
   });
 };
@@ -88,7 +115,7 @@ const columns = [
           {
             size: "small",
             type: "info",
-
+            disabled: row.id === 1,
             onClick: () => {
               addOrEditRole("编辑角色", row, index);
             },
@@ -100,7 +127,7 @@ const columns = [
           {
             size: "small",
             type: "error",
-
+            disabled: row.id === 1,
             style: { marginLeft: "10px" },
             onClick: () => {
               deleteRole(row.id, index);

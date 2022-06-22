@@ -50,6 +50,7 @@ import {
   createUserApi,
   updateUserApi,
   deleteUserApi,
+  getRoleListApi,
 } from "@/api/sys";
 import UserForm from "./components/UserForm.vue";
 import { EditRegular } from "@vicons/fa";
@@ -58,6 +59,8 @@ import {
   Delete16Regular,
   AddCircle16Regular,
 } from "@vicons/fluent";
+import md5 from "js-md5";
+import { objectEntries } from "@antfu/utils";
 
 // console.log(import.meta.env)
 
@@ -115,23 +118,23 @@ export default defineComponent({
         negativeText: "取消",
         onPositiveClick: () => {
           const user = user_form.value.user;
+
           if (row) {
-            
             updateUserApi(user).then((res) => {
               if (res.status == 200) {
                 userList[index] = user;
                 message.success("修改成功");
               } else {
-                message.error('修改失败');
+                message.error("修改失败");
               }
             });
             return;
           }
+
           user.id = userList.length ? userList[userList.length - 1].id + 1 : 1;
-          
-          console.log(user);
+          user.password = md5(user.password);
+
           createUserApi(user).then((res) => {
-            console.log(res);
             if (res.status == 201) {
               userList.push(user);
               message.success("添加成功");
@@ -159,17 +162,14 @@ export default defineComponent({
             }
           });
         },
-      })
-      // deleteUserApi(row.id).then((res) => {
-      //   console.log(res);
-      //   if (res.status == 200) {
-      //     userList.splice(index, 1);
-      //     message.success("删除成功");
-      //   } else {
-      //     message.error("删除失败");
-      //   }
-      // });
+      });
     };
+    const roleList=reactive([]);
+    const getRoleList = async () => {
+      const res = await getRoleListApi();
+      Object.assign(roleList, res.data);
+    };
+    const colorList=['success','warning','error','info']
     const column = [
       {
         title: "id",
@@ -186,20 +186,13 @@ export default defineComponent({
           return h(
             NTag,
             {
-              type:
-                row.role_id == 1
-                  ? "info"
-                  : row.role_id == 2
-                  ? "success"
-                  : "default",
+              type: colorList[row.role_id%4-1],
             },
             {
-              default: () =>
-                row.role_id == 1
-                  ? "超级管理员"
-                  : row.role_id == 2
-                  ? "管理员"
-                  : "普通用户",
+              default: () =>{
+                const role=roleList.find(item=>item.id==row.role_id)
+                return role?role.description:'未知'
+              }
             }
           );
         },
@@ -214,7 +207,7 @@ export default defineComponent({
               {
                 size: "small",
                 type: "info",
-
+                disabled: row.id == 1,
                 onClick: () => {
                   addOrEditUser("编辑用户", row, index);
                 },
@@ -226,7 +219,7 @@ export default defineComponent({
               {
                 size: "small",
                 type: "error",
-
+                disabled: row.id == 1,
                 style: { marginLeft: "10px" },
                 onClick: () => {
                   deleteUser(row, index);
@@ -238,7 +231,10 @@ export default defineComponent({
         },
       },
     ];
-    onMounted(getUser);
+    onMounted(()=>{
+      getUser();
+      getRoleList();
+    })
     return {
       userList,
       column,

@@ -6,8 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "mock":"json-server --watch mock/db.json --port 3005",
-    "mockdev":"npm run mock | npm run dev"
+    "mock": "json-server --watch mock/db.json --port 3005",
+    "mockdev": "npm run mock | npm run dev"
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^4.0.7",
@@ -31,7 +31,7 @@
     "json-server": "^0.17.0",
     "less": "^4.1.2",
     "less-loader": "^6.0.0",
-    "naive-ui": "^2.25.1",
+    "naive-ui": "^2.30.5",
     "unplugin-vue-components": "^0.19.6",
     "vfonts": "^0.0.3",
     "vite": "^2.8.0"

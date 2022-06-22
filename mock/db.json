@@ -2,21 +2,27 @@
   "user": [
     {
       "username": "superadmin",
-      "password": "123456",
+      "password": "e10adc3949ba59abbe56e057f20f883e",
       "role_id": 1,
       "id": 1
     },
     {
       "username": "admin",
-      "password": "123456",
+      "password": "e10adc3949ba59abbe56e057f20f883e",
       "role_id": 2,
       "id": 2
     },
     {
-      "username": "test",
-      "password": "123456",
+      "username": "test1",
+      "password": "e10adc3949ba59abbe56e057f20f883e",
       "role_id": 3,
       "id": 3
+    },
+    {
+      "username": "lei",
+      "password": "02bdd5a0d322de0ba211cf5e1c823e69",
+      "role_id": 2,
+      "id": 4
     }
   ],
   "role": [

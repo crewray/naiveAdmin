@@ -60,7 +60,7 @@ import { NInput, NIcon, NButton, useMessage } from "naive-ui";
 import { User, Lock, CheckCircleRegular } from "@vicons/fa";
 import { inject, ref, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
-import { getUserList } from "@/api/sys.js";
+import { getUserListApi } from "@/api/sys.js";
 import Verify from "@/components/Verify.vue";
 import md5 from "js-md5";
 
@@ -82,14 +82,14 @@ const backImageCode = (code) => {
 
 let userList = [];
 const getUsers = async () => {
-  const res = await getUserList();
-  if (res.data.status == 200) {
-    userList = res.data.data;
+  const res = await getUserListApi();
+  if (res.status == 200) {
+    userList = res.data;
   }
 };
 onMounted(getUsers);
 
-let username = ref("admin");
+let username = ref("superadmin");
 let password = ref("123456");
 let img_code = ref("");
 
@@ -120,7 +120,7 @@ const login = () => {
     message.error("用户名不存在");
     return;
   }
-  if (user.password != password.value) {
+  if (user.password != md5(password.value)) {
     message.error("密码错误");
     return;
   }

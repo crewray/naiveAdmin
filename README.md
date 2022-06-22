@@ -8,7 +8,7 @@ vite文档:https://cn.vitejs.dev/
 
 vue3文档：https://v3.cn.vuejs.org/guide/introduction.html
 
-fastmock: https://www.fastmock.site/#/
+json-server: https://github.com/typicode/json-server
 
 ## 安装
 

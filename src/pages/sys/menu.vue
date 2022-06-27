@@ -11,7 +11,7 @@
 <script setup>
 import {menuOptions} from '@/data/menu.js'
 import fs from 'fs'
-menuOptions.splice(0,1)
+
 const columns=[
   {
     title:'key',

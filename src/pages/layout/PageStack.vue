@@ -29,7 +29,9 @@ watch(
     if(!newVal[1]){
       return;
     }
-    console.log(newVal);
+    if(newVal[0].path==='/404'){
+      return
+    }
     active.value = newVal[1].path
     if(!pageStack.has(newVal[1].path)){
       pageStack.set(newVal[1].path, newVal[1].meta.title)

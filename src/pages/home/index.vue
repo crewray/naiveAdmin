@@ -10,6 +10,19 @@
 
 <script setup>
 import { NCard } from "naive-ui";
+Promise.resolve().then(()=>{
+    console.log('promise1')
+})
+setTimeout(()=>{
+    console.log('s1')
+})
+Promise.resolve().then(()=>{
+    console.log('promise2')
+})
+
+setTimeout(()=>{
+    console.log('s2')
+})
 </script>
 
 <style scoped lang="less">

@@ -13,6 +13,17 @@
           placeholder="请输入描述"
         ></n-input>
       </n-form-item>
+      <n-form-item label="权限">
+        <n-tree
+          block-line
+          cascade
+          checkable
+          :data="data"
+          :default-expanded-keys="defaultExpandedKeys"
+          :default-checked-keys="defaultCheckedKeys"
+          @update:checked-keys="updateCheckedKeys"
+        />
+      </n-form-item>
     </n-form>
   </div>
 </template>
@@ -24,7 +35,7 @@ const props = defineProps({ row: {}, index: Number });
 const { row, index } = props;
 const role = reactive({ ...row });
 
-defineExpose({role})
+defineExpose({ role });
 </script>
 
 <style lang="less">

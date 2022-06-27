@@ -10,7 +10,9 @@
     class="side-menu"
     label-field="title"
     key-field="name"
-  />
+  >
+  
+  </n-menu>
 </template>
 
 <style lang="less">

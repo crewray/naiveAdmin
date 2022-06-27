@@ -27,8 +27,6 @@ const menuRoutes= menuOptions.map(item=>{
     ]
   }
 })
-menuRoutes.splice(0,1)
-console.log(menuRoutes)
 
 const routes = [
   {

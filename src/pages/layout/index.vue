@@ -13,6 +13,9 @@
         class="sidebar"
         :native-scrollbar="false"
       >
+      <div class="flex  aic pointer  title" @click="router.push('/')">
+        <img src="@/assets/logo.png" class="logo" alt="">
+        NaiveAdmin</div>
         <SideBar/>
       </n-layout-sider>
       <n-layout class="bg-f4f4f4 right">
@@ -30,6 +33,17 @@ html,body,#app{
 .layout {
   width: 100%;
   height: 100%;
+  .title{
+    height: 42px;
+    font-size: 16px;
+    margin-left: 10%;
+  }
+  .logo{
+    width: 30px;
+    height: 25px;
+    margin-right: 10px;
+
+  }
   .header {
     position: fixed;
     left: 0;
@@ -65,6 +79,8 @@ import SideBar from "./SideBar.vue";
 import Breadcrumb from "./Breadcrumb.vue";
 import PageStack from "./PageStack.vue";
 import PageStackVue from "./PageStack.vue";
+import {useRouter} from 'vue-router'
+
 
 
 
@@ -73,8 +89,10 @@ import PageStackVue from "./PageStack.vue";
 export default defineComponent({
   components: { NLayout, NLayoutSider, NLayoutHeader, Header, SideBar, Breadcrumb, PageStackVue },
   setup() {
+    const router= useRouter()
     return {
       inverted: true,
+      router
     };
   },
 });

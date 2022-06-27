@@ -1,18 +1,11 @@
 import { h } from "vue";
-import { Home } from "@vicons/ionicons5";
 import { NIcon } from "naive-ui";
-import { User, UserEdit, ChartBar, Wpforms, Edit, Upload } from "@vicons/fa";
-import { MdSettings } from "@vicons/ionicons4";
+import { Home, User, UserEdit, ChartBar, Wpforms, Edit, Upload,Wrench, Bars } from "@vicons/fa";
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
 export const menuOptions = [
-  {
-    title: "后台管理系统",
-    name: "title",
-    path: "/",
-  },
   {
     title: "首页",
     path: "/home",
@@ -129,14 +122,14 @@ export const menuOptions = [
     meta: {
       title: "demo",
     },
-    icon: renderIcon(MdSettings),
+    icon: renderIcon(Wrench),
     component: () => import("@/pages/demo.vue"),
   },
   {
     title: "系统管理",
     path: "/sys",
     name: "system",
-    icon: renderIcon(MdSettings),
+    icon: renderIcon(Wrench),
     meta: {
       title: "系统管理",
     },
@@ -162,14 +155,14 @@ export const menuOptions = [
         component: () => import("@/pages/sys/role.vue"),
       },
       {
-        title: "权限管理",
-        path: "/sys/permission",
-        name: "permission",
+        title: "菜单管理",
+        path: "/sys/menu",
+        name: "menu",
         meta: {
-          title: "权限管理",
+          title: "菜单管理",
         },
-        icon: renderIcon(MdSettings),
-        component: () => import("@/pages/sys/permission.vue"),
+        icon: renderIcon(Bars),
+        component: () => import("@/pages/sys/menu.vue"),
       },
     ],
   },

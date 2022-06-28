@@ -1,7 +1,7 @@
 <template>
   <div>
     <n-card class="h100" title="菜单管理">
-      <n-data-table ref="table" :columns="columns" :data="menuList" default-expand-all :row-key="rowKey">
+      <n-data-table ref="table" :columns="columns" :data="menuList"  :row-key="rowKey">
 
       </n-data-table>
     </n-card>

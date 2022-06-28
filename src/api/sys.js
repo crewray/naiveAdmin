@@ -25,3 +25,8 @@ export const updateRoleApi=(data)=>{
 export const deleteRoleApi=(id)=>{
     return delete_('/role',id)
 }
+
+// 获取菜单
+export const getMenuApi=()=>{
+    return get('/menu')
+}

@@ -1,16 +1,43 @@
-import { h } from "vue";
+import { h,reactive } from "vue";
 import { NIcon } from "naive-ui";
-import { Home, User, UserEdit, ChartBar, Wpforms, Edit, Upload,Wrench, Bars } from "@vicons/fa";
+import * as fa from "@vicons/fa";
+import { getMenuApi } from "@/api/sys.js";
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
+const menuList = reactive([]);
+getMenuApi().then((res) => {
+  if (res.status == 200) {
+    Object.assign(menuList,formatMenu(res.data));
+    
+  }
+});
+function formatMenu(menu) {
+  const newMenu = menu.map((item) => {
+    
+    if (item.icon) {
+      item.icon = renderIcon(fa[item.icon]);
+    }
+    if(item.component){
+      item.component=()=>import(item.component)
+    }
+    if (item.children) {
+      item.children = formatMenu(item.children);
+    }
+    return item
+  });
+  return newMenu
+}
+// menuList=formatMenu(menuList)
+
+export { menuList };
 export const menuOptions = [
   {
     title: "首页",
     path: "/home",
     name: "home",
-    icon: renderIcon(Home),
+    icon: renderIcon(fa.Home),
     component: () => import("@/pages/home/index.vue"),
     meta: {
       title: "首页",
@@ -23,7 +50,7 @@ export const menuOptions = [
     meta: {
       title: "图表",
     },
-    icon: renderIcon(ChartBar),
+    icon: renderIcon(fa.ChartBar),
     children: [
       {
         title: "折线图",
@@ -33,7 +60,7 @@ export const menuOptions = [
           title: "折线图",
           icon: "Line",
         },
-        icon: renderIcon(ChartBar),
+        icon: renderIcon(fa.ChartBar),
         component: () => import("@/pages/echart/line.vue"),
       },
       {
@@ -44,7 +71,7 @@ export const menuOptions = [
           title: "柱状图",
           icon: "Bar",
         },
-        icon: renderIcon(ChartBar),
+        icon: renderIcon(fa.ChartBar),
         component: () => import("@/pages/echart/bar.vue"),
       },
       {
@@ -55,7 +82,7 @@ export const menuOptions = [
           title: "饼图",
           icon: "Pie",
         },
-        icon: renderIcon(ChartBar),
+        icon: renderIcon(fa.ChartBar),
         component: () => import("@/pages/echart/pie.vue"),
       },
       {
@@ -66,7 +93,7 @@ export const menuOptions = [
           title: "雷达图",
           icon: "Radar",
         },
-        icon: renderIcon(ChartBar),
+        icon: renderIcon(fa.ChartBar),
         component: () => import("@/pages/echart/radar.vue"),
       },
       {
@@ -77,7 +104,7 @@ export const menuOptions = [
           title: "环形图",
           icon: "Ring",
         },
-        icon: renderIcon(ChartBar),
+        icon: renderIcon(fa.ChartBar),
         component: () => import("@/pages/echart/ring.vue"),
       },
     ],
@@ -89,7 +116,7 @@ export const menuOptions = [
     meta: {
       title: "表单组件",
     },
-    icon: renderIcon(Wpforms),
+    icon: renderIcon(fa.Wpforms),
     children: [
       {
         title: "富文本编辑器",
@@ -99,7 +126,7 @@ export const menuOptions = [
           title: "富文本编辑器",
           icon: "Editor",
         },
-        icon: renderIcon(Edit),
+        icon: renderIcon(fa.Edit),
         component: () => import("@/pages/form/editor.vue"),
       },
       {
@@ -110,7 +137,7 @@ export const menuOptions = [
           title: "上传组件",
           icon: "Upload",
         },
-        icon: renderIcon(Upload),
+        icon: renderIcon(fa.Upload),
         component: () => import("@/pages/form/upload.vue"),
       },
     ],
@@ -122,14 +149,14 @@ export const menuOptions = [
     meta: {
       title: "demo",
     },
-    icon: renderIcon(Wrench),
+    icon: renderIcon(fa.Wrench),
     component: () => import("@/pages/demo.vue"),
   },
   {
     title: "系统管理",
     path: "/sys",
     name: "system",
-    icon: renderIcon(Wrench),
+    icon: renderIcon(fa.Wrench),
     meta: {
       title: "系统管理",
     },
@@ -141,7 +168,7 @@ export const menuOptions = [
         meta: {
           title: "用户管理",
         },
-        icon: renderIcon(User),
+        icon: renderIcon(fa.User),
         component: () => import("@/pages/sys/user.vue"),
       },
       {
@@ -151,7 +178,7 @@ export const menuOptions = [
         meta: {
           title: "角色管理",
         },
-        icon: renderIcon(UserEdit),
+        icon: renderIcon(fa.UserEdit),
         component: () => import("@/pages/sys/role.vue"),
       },
       {
@@ -161,7 +188,7 @@ export const menuOptions = [
         meta: {
           title: "菜单管理",
         },
-        icon: renderIcon(Bars),
+        icon: renderIcon(fa.Bars),
         component: () => import("@/pages/sys/menu.vue"),
       },
     ],

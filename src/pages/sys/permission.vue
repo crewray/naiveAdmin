@@ -10,7 +10,6 @@
 
 <script setup>
 import {menuOptions} from '@/data/menu.js'
-menuOptions.splice(0,1)
 const columns=[
   {
     title:'key',

@@ -2,51 +2,50 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Layout from "@/pages/layout/index.vue";
 import { menuOptions } from "../data/menu";
+import { getMenuApi } from "@/api/sys.js";
 
+// console.log(menuList)
 
-
-const menuRoutes= menuOptions.map(item=>{
-  if(item.children){
+const menuRoutes = menuOptions.map((item) => {
+  if (item.children) {
     return {
       ...item,
-      icon:null,
-      redirect:item.children[0].path,
-      component:Layout
-    }
+      icon: null,
+      redirect: item.children[0].path,
+      component: Layout,
+    };
   }
   return {
-    path:item.path,
-    name:item.name+'Layout',
-    redirect:item.path,
-    component:Layout,
-    children:[
+    path: item.path,
+    name: item.name + "Layout",
+    redirect: item.path,
+    component: Layout,
+    children: [
       {
         ...item,
-        path:item.path
-      }
-    ]
-  }
-})
+        path: item.path,
+      },
+    ],
+  };
+});
 
 const routes = [
   {
     path: "/",
-    redirect: '/home'
+    redirect: "/home",
+    component: Layout,
+    children: [
+      {
+        path: "/home",
+        name: "home",
+        meta: {
+          title: "首页",
+        },
+        component: () => import("@/pages/home/index.vue"),
+      },
+    ],
   },
-  //   redirect: "/home",
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: "home",
-  //       name: "myhome",
-  //       meta: {
-  //         title: "首页",
-  //       },
-  //       component: () => import("@/pages/home/index.vue"),
-  //     },
-  //   ],
-  // },
-  
+
   // {
   //   path: "/sys",
   //   name: "sys",
@@ -75,13 +74,12 @@ const routes = [
   //       component: () => import("@/pages/sys/role.vue"),
   //     },
   //     {
-  //       path: "permission",
-  //       name: "permission",
+  //       path: "menu",
+  //       name: "menu",
   //       meta: {
   //         title: "权限管理",
-  //         icon: "Permission",
   //       },
-  //       component: () => import("@/pages/sys/permission.vue"),
+  //       component: () => import("@/pages/sys/menu.vue"),
   //     },
   //   ],
   // },
@@ -180,7 +178,7 @@ const routes = [
   //   },
   //   children:[
   //     {
-  //       path:'demo',
+  //       path:'/demo',
   //       name:'demo',
   //       meta:{
   //         title:'demo'
@@ -189,27 +187,27 @@ const routes = [
   //     }
   //   ]
   // },
-  ...menuRoutes,
+  // ...menuRoutes,
   {
-    path:"/no_right",
-    name:'no_right',
-    redirect:"/no_right/index",
-    meta:{
-      title:'权限'
+    path: "/no_right",
+    name: "no_right",
+    redirect: "/no_right/index",
+    meta: {
+      title: "权限",
     },
     component: Layout,
-    children:[
+    children: [
       {
-        path:"index",
-        name:'no_right_index',
-        meta:{
-          title:'无权限'
+        path: "index",
+        name: "no_right_index",
+        meta: {
+          title: "无权限",
         },
-        component: ()=>import("@/components/NoRight.vue")
-      }
-    ]
+        component: () => import("@/components/NoRight.vue"),
+      },
+    ],
   },
-  
+
   {
     path: "/login",
     name: "login",
@@ -237,43 +235,113 @@ const routes = [
       },
     ],
   },
-  {
-    path: "/:catchAll(.*)",
-    redirect: "/404",
-  },
+  // {
+  //   path: "/:catchAll(.*)",
+  //   redirect: "/404",
+  // }
 ];
 
-export { routes };
+// export { routes };
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+
+const modules = import.meta.glob("../pages/**/*.vue");
+
+function formatRoutes(menu) {
+  const newMenu = menu.map((item) => {
+    if (item.icon) {
+      item.icon = null;
+    }
+    if (item.component) {
+      item.component = modules[item.component];
+    }
+    if (item.children) {
+      item.children = formatRoutes(item.children);
+    }
+    return item;
+  });
+  return newMenu;
+}
+
+async function getRouteList() {
+  const res = await getMenuApi();
+  if (res.status == 200) {
+    const routeList = formatRoutes(res.data);
+
+    const newRoutes = routeList.map((item) => {
+      if (item.children) {
+        return {
+          ...item,
+          icon: null,
+          redirect: item.children[0].path,
+          component: Layout,
+        };
+      }
+      return {
+        path: item.path,
+        name: item.name + "Layout",
+        component: Layout,
+        children: [
+          {
+            ...item,
+            path: item.path,
+          },
+        ],
+      };
+    });
+    return newRoutes
+
+    
+  }
+}
+
+
+
+
+
+let hasRoles=true
+
+router.beforeEach( async (to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title;
   }
+  // if(to.redirectedFrom){
+  //   router.replace(to.redirectedFrom)
+  // }
   if (to.path === "/login") {
     next();
   } else {
-    
     // const user_id = localStorage.getItem("userId");
-    const userStr=localStorage.getItem("userInfo");
-    const user=JSON.parse(userStr);
-    if(user&&user.uid){
-      if(/^\/sys\/.*/.test(to.path)&&user.role_id!=1){
-        next('/no_right/index')
+    const userStr = localStorage.getItem("userInfo");
+    const user = JSON.parse(userStr);
+    if (user && user.uid) {
+      // if (/^\/sys\/.*/.test(to.path) && user.role_id != 1) {
+      //   next("/no_right/index");
+      // }
+      const routeList=await getRouteList()
+      if(hasRoles){
+        routeList.forEach(item=>{
+          router.addRoute(item)
+        })
+        hasRoles=false
+        next({...to,replace:true})
+
+      }else{
+        next()
       }
-      next();
-    }
-    else{
+      
+      
+      
+      
+    } else {
       console.log("未登录");
       next("/login");
     }
-  
   }
-  
 });
 
 export default router;

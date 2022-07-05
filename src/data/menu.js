@@ -15,13 +15,13 @@ getMenuApi().then((res) => {
 });
 function formatMenu(menu) {
   const newMenu = menu.map((item) => {
-    
+    // console.log(item.icon)
     if (item.icon) {
       item.icon = renderIcon(fa[item.icon]);
     }
-    if(item.component){
-      item.component=()=>import(item.component)
-    }
+    // if(item.component){
+    //   item.component=()=>import(item.component)
+    // }
     if (item.children) {
       item.children = formatMenu(item.children);
     }

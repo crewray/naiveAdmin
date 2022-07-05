@@ -30,3 +30,7 @@ export const deleteRoleApi=(id)=>{
 export const getMenuApi=()=>{
     return get('/menu')
 }
+// 获取角色菜单
+export const getRoleMenuApi=(id)=>{
+    return get('/role/'+id)
+}

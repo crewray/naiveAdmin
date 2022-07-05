@@ -93,9 +93,9 @@ let username = ref("superadmin");
 let password = ref("123456");
 let img_code = ref("");
 
-let userId = inject("userId");
+// let userId = inject("userId");
 const userObj=inject("user")
-const setUserId = inject("setUserId");
+// const setUserId = inject("setUserId");
 const setUser = inject("setUser");
 const router = useRouter();
 

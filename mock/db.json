@@ -34,15 +34,40 @@
     {
       "id": 2,
       "name": "admin",
-      "description": "管理员"
+      "description": "管理员",
+      "access": [
+        "/home",
+        "/echart",
+        "/echart/line",
+        "/echart/bar",
+        "/echart/pie",
+        "/echart/radar",
+        "/echart/ring",
+        "/form",
+        "/form/editor",
+        "/form/upload",
+        "/demo"
+      ]
     },
     {
       "id": 3,
       "name": "test",
-      "description": "测试角色"
+      "description": "测试角色",
+      "access": [
+        "/home",
+        "/echart",
+        "/echart/line",
+        "/echart/bar",
+        "/echart/pie",
+        "/echart/radar",
+        "/echart/ring",
+        "/form",
+        "/form/editor",
+        "/form/upload"
+      ]
     }
   ],
-  "menu":[
+  "menu": [
     {
       "title": "首页",
       "path": "/home",
@@ -70,7 +95,7 @@
             "title": "折线图"
           },
           "icon": "ChartBar",
-          "component":  "../pages/echart/line.vue"
+          "component": "../pages/echart/line.vue"
         },
         {
           "title": "柱状图",
@@ -80,7 +105,7 @@
             "title": "柱状图"
           },
           "icon": "ChartBar",
-          "component":  "../pages/echart/bar.vue"
+          "component": "../pages/echart/bar.vue"
         },
         {
           "title": "饼图",
@@ -90,7 +115,7 @@
             "title": "饼图"
           },
           "icon": "ChartBar",
-          "component":  "../pages/echart/pie.vue"
+          "component": "../pages/echart/pie.vue"
         },
         {
           "title": "雷达图",
@@ -100,7 +125,7 @@
             "title": "雷达图"
           },
           "icon": "ChartBar",
-          "component":  "../pages/echart/radar.vue"
+          "component": "../pages/echart/radar.vue"
         },
         {
           "title": "环形图",
@@ -110,7 +135,7 @@
             "title": "环形图"
           },
           "icon": "ChartBar",
-          "component":  "../pages/echart/ring.vue"
+          "component": "../pages/echart/ring.vue"
         }
       ]
     },
@@ -131,7 +156,7 @@
             "title": "富文本编辑器"
           },
           "icon": "Edit",
-          "component":  "../pages/form/editor.vue"
+          "component": "../pages/form/editor.vue"
         },
         {
           "title": "上传组件",
@@ -141,7 +166,7 @@
             "title": "上传组件"
           },
           "icon": "Upload",
-          "component":  "../pages/form/upload.vue"
+          "component": "../pages/form/upload.vue"
         }
       ]
     },
@@ -153,7 +178,7 @@
         "title": "demo"
       },
       "icon": "Wrench",
-      "component":  "../pages/demo/demo.vue"
+      "component": "../pages/demo/demo.vue"
     },
     {
       "title": "系统管理",
@@ -172,7 +197,7 @@
             "title": "用户管理"
           },
           "icon": "User",
-          "component":  "../pages/sys/user.vue"
+          "component": "../pages/sys/user.vue"
         },
         {
           "title": "角色管理",
@@ -182,7 +207,7 @@
             "title": "角色管理"
           },
           "icon": "UserEdit",
-          "component":  "../pages/sys/role.vue"
+          "component": "../pages/sys/role.vue"
         },
         {
           "title": "菜单管理",
@@ -192,7 +217,7 @@
             "title": "菜单管理"
           },
           "icon": "Bars",
-          "component":  "../pages/sys/menu.vue"
+          "component": "../pages/sys/menu.vue"
         }
       ]
     }

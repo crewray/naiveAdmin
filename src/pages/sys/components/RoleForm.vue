@@ -16,10 +16,13 @@
       <n-form-item label="权限">
         <n-tree
           block-line
+          expand-on-click
+          selectabble
           cascade
           checkable
-          :data="data"
-          :default-expanded-keys="defaultExpandedKeys"
+          key-field="path"
+          label-field="title"
+          :data="menuList"
           :default-checked-keys="defaultCheckedKeys"
           @update:checked-keys="updateCheckedKeys"
         />
@@ -31,9 +34,16 @@
 <script setup>
 import { NForm, NFormItem, NInput, NSelect, NButton } from "naive-ui";
 import { reactive } from "vue";
+import { menuList } from "@/data/menu.js";
 const props = defineProps({ row: {}, index: Number });
 const { row, index } = props;
+// console.log(row)
 const role = reactive({ ...row });
+const defaultCheckedKeys = row.access;
+const updateCheckedKeys=(checkedKeys)=>{
+  role.access = checkedKeys;
+  // console.log(checkedKeys);
+}
 
 defineExpose({ role });
 </script>

@@ -4,18 +4,18 @@ import {provide,ref,readonly,reactive} from 'vue'
 import router from '@/router/index.js'
 const userStr=localStorage.getItem('userInfo')
 const user=reactive(JSON.parse(userStr)?JSON.parse(userStr):{})
-let userId=ref(localStorage.getItem('userId'))
-const setUserId=(id)=>{
-  userId.value=id
-  localStorage.setItem('userId',id)
-}
+// let userId=ref(localStorage.getItem('userId'))
+// const setUserId=(id)=>{
+//   userId.value=id
+//   localStorage.setItem('userId',id)
+// }
 const setUser=(userObj)=>{
   Object.assign(user,userObj)
   localStorage.setItem('userInfo',JSON.stringify(user))
 }
-provide('userId',readonly(userId))
+// provide('userId',readonly(userId))
 provide('user',readonly(user))
-provide('setUserId',setUserId)
+// provide('setUserId',setUserId)
 provide('setUser',setUser)
 
 

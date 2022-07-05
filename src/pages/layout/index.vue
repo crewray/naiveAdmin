@@ -23,11 +23,9 @@
 
       
       <n-layout class="bg-f4f4f4 rel right">
-        <div class="top ">
-          <Breadcrumb class="bread-cont" />
+          <Breadcrumb  />
           <PageStackVue class="pagestack" />
-        </div>
-          <router-view class="content pl-10 pr-10  pb-10 fg1"></router-view>
+          <router-view class="content pl-10 pr-10 mt-10  pb-10 fg1"></router-view>
         
       </n-layout>
       
@@ -64,8 +62,8 @@ body,
     height: 100%;
   }
   .right {
-    padding-top: 100px;
-    overflow: hidden;
+    // padding-top: 100px;
+    // overflow: hidden;
     .top{
       width: 100%;
       position: fixed;

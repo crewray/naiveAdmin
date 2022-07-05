@@ -1,10 +1,8 @@
 // import Router from 'vue-router'
+import { inject } from "vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 import Layout from "@/pages/layout/index.vue";
-import { getMenuApi } from "@/api/sys.js";
-
-
-
+import { getMenuApi, getRoleMenuApi } from "@/api/sys.js";
 
 const routes = [
   {
@@ -23,7 +21,6 @@ const routes = [
     ],
   },
 
- 
   {
     path: "/no_right",
     name: "no_right",
@@ -71,17 +68,15 @@ const routes = [
       },
     ],
   },
-  
 ];
-
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
 
-
-const modules = import.meta.glob("../pages/**/*.vue");
+const modules = import.meta.glob("/src/pages/**/*.vue");
+console.log(modules)
 
 function formatRoutes(menu) {
   const newMenu = menu.map((item) => {
@@ -99,10 +94,31 @@ function formatRoutes(menu) {
   return newMenu;
 }
 
+const menuFilter = (menu = [], access = []) => {
+  return menu.filter((item) => {
+    if (item.children) {
+      item.children = menuFilter(item.children, access);
+    }
+    return access.includes(item.path);
+  });
+};
+
+const user = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
 async function getRouteList() {
   const res = await getMenuApi();
+  if (user && user.role_id !== 1) {
+    const access = await getRoleMenuApi(user.role_id);
+  }
   if (res.status == 200) {
-    const routeList = formatRoutes(res.data);
+    let routeList = formatRoutes(res.data);
+    if (user && user.role_id !== 1) {
+      if (access.status == 200) {
+        routeList = menuFilter(routeList, access.data);
+      }
+    }
 
     const newRoutes = routeList.map((item) => {
       if (item.children) {
@@ -125,23 +141,17 @@ async function getRouteList() {
         ],
       };
     });
-    return newRoutes
-
-    
+    return newRoutes;
   }
 }
 
+let hasRoles = true;
 
-
-
-
-let hasRoles=true
-
-router.beforeEach( async (to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title;
   }
-  
+
   if (to.path === "/login") {
     next();
   } else {
@@ -151,21 +161,16 @@ router.beforeEach( async (to, from, next) => {
       // if (/^\/sys\/.*/.test(to.path) && user.role_id != 1) {
       //   next("/no_right/index");
       // }
-      const routeList=await getRouteList()
-      if(hasRoles){
-        routeList.forEach(item=>{
-          router.addRoute(item)
-        })
-        hasRoles=false
-        next({...to,replace:true})
-
-      }else{
-        next()
+      const routeList = await getRouteList();
+      if (hasRoles) {
+        routeList.forEach((item) => {
+          router.addRoute(item);
+        });
+        hasRoles = false;
+        next({ ...to, replace: true });
+      } else {
+        next();
       }
-      
-      
-      
-      
     } else {
       console.log("未登录");
       next("/login");

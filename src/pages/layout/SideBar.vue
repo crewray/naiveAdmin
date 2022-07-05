@@ -5,7 +5,6 @@
     :collapsed-icon-size="22"
     :options="roleMenu"
     :value="actived"
-    :collapsed="collapsed"
     @update:value="handleUpdateValue"
     class="side-menu"
     label-field="title"

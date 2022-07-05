@@ -57,8 +57,6 @@ const options = [
 const handleSelect = (key, option) => {
   option.onClick();
 };
-const userId = inject("userId");
-const setUserId = inject("setUserId");
 const user = inject("user");
 const setUser = inject("setUser");
 const $router = useRouter();

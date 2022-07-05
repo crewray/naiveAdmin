@@ -6,6 +6,7 @@
         :columns="columns"
         :data="menuList"
         :row-key="rowKey"
+        :default-expanded-row-keys="['echart']"
       >
       </n-data-table>
     </n-card>
@@ -30,6 +31,10 @@ const columns = [
     key: "path",
   },
   {
+    title:'页面',
+    key:'component',
+  },
+  {
     title: "操作",
     key: "action",
     render: (row, index) => {
@@ -44,7 +49,7 @@ const columns = [
     },
   },
 ];
-const rowKey = (row) => row.path;
+const rowKey = (row) => row.name;
 </script>
 
 <style></style>

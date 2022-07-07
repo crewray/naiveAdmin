@@ -76,7 +76,6 @@ const router = createRouter({
 });
 
 const modules = import.meta.glob("/src/pages/**/*.vue");
-console.log(modules)
 
 function formatRoutes(menu) {
   const newMenu = menu.map((item) => {

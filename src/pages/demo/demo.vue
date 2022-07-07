@@ -1,83 +1,62 @@
 <template>
   <div>
     <n-card class="h100">
-      <n-data-table
-        :columns="columns"
-        :data="data"
-        :row-key="rowKey"
-        default-expand-all
+      <n-button class="pl-5 pr-5"  text v-for="item in currentPageList" :key="item.name">
+        <n-icon size="100"  :component="item"></n-icon>
+      </n-button>
+      
+      <n-pagination
+        class="pagination"
+        v-model:page="page"
+        v-model:page-size="pageSize"
+        :item-count="total"
+        show-size-picker
+        :page-sizes="[ 50, 100, 150, 200 ]"
       />
+      <n-button @click="showModal = true">
+    没什么的
+  </n-button>
+  <n-modal v-model:show="showModal" >
+    <div class="bg-fff">111</div>
+  </n-modal>
     </n-card>
   </div>
 </template>
 
 <script setup>
-import { h } from "vue";
-import {NButton} from 'naive-ui'
-const data = [
-  {
-    name: "07akioni",
-    index: "07",
-    children: [
-      {
-        name: "08akioni",
-        index: "08",
-        children: [
-          {
-            name: "09akioni",
-            index: "09",
-          },
-          {
-            name: "10akioni",
-            index: "10",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "11akioni",
-    index: "11",
-  },
-  
-];
-const columns = [
-  {
-    type: "selection",
-  },
-  {
-    title: "name",
-    key: "name",
-  },
-  {
-    title: "index",
-    key: "index",
-  },
-  {
-    title: "操作",
-    key: "action",
-    render: (row, index) => {
-      return [
-        h(
-          NButton,
-          {
-            type: "primary",
-            onClick: () => {
-              console.log(index);
-            },
-          },
-          { default: () => "编辑" }
-        ),
-        h(
-          NButton,
-          { type: "error", style: { marginLeft: "10px" } },
-          { default: () => "删除" }
-        ),
-      ];
-    },
-  },
-];
-const rowKey = (row) => row.index;
+import { h, ref,reactive, watch,shallowRef } from "vue";
+import * as fa from "@vicons/fa";
+const showModal=ref(false);
+const iconList = [];
+for (const key in fa) {
+  iconList.push(fa[key]);
+}
+// const pageData=reactive({
+//   page:1,
+//   pageSize:10,
+//   total:iconList.length,
+//   currentPageList:[]
+// })
+const page=ref(1);
+const pageSize=ref(50);
+const total=ref(iconList.length);
+const currentPageList=shallowRef(iconList.slice(0,pageSize.value));
+watch([page,pageSize],(newVal,oldVal)=>{
+  const start=(newVal[0]-1)*newVal[1];
+  const end=start+newVal[1];
+  currentPageList.value=iconList.slice(start,end);
+})
+
+
+
+
+
+
 </script>
 
-<style></style>
+<style lang="less">
+.pagination{
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+</style>

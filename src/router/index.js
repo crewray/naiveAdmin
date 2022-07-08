@@ -145,6 +145,7 @@ async function getRouteList() {
 }
 
 let hasRoles = true;
+const routeList = await getRouteList();
 
 router.beforeEach(async (to, from, next) => {
   if (to.meta.title) {
@@ -160,7 +161,7 @@ router.beforeEach(async (to, from, next) => {
       // if (/^\/sys\/.*/.test(to.path) && user.role_id != 1) {
       //   next("/no_right/index");
       // }
-      const routeList = await getRouteList();
+      
       if (hasRoles) {
         routeList.forEach((item) => {
           router.addRoute(item);

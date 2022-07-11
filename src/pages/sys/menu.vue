@@ -7,12 +7,12 @@
       <n-data-table
         ref="table"
         :columns="columns"
-        :data="menuList"
+        :data="reactiveData.menuList"
         :row-key="rowKey"
         :default-expanded-row-keys="['echart']"
       >
       </n-data-table>
-      <n-modal preset="dialog" v-model:show="showModal">
+      <n-modal :mask-closable="false" preset="dialog" v-model:show="showModal">
         <template #header> 添加菜单 </template>
         <menuForm @on-save="save" @on-close="showModal = false" />
       </n-modal>
@@ -21,11 +21,11 @@
 </template>
 
 <script setup>
-import { menuList } from "@/data/menu.js";
-import { h, ref, onMounted } from "vue";
+import { h, ref, onMounted, reactive } from "vue";
 import { NButton, useDialog } from "naive-ui";
 import menuForm from "./components/menuForm.vue";
-import { createMenuApi, getMenuApi } from "@/api/sys";
+import { createMenuApi, getMenuApi, getMenuItemApi, test } from "@/api/sys";
+import { cloneDeep } from "lodash";
 const columns = [
   {
     title: "标志",
@@ -63,12 +63,13 @@ const rowKey = (row) => row.name;
 const showModal = ref(false);
 const openForm = () => {
   showModal.value = true;
-  getPath();
 };
 
-const reactiveData = {
+const reactiveData = reactive({
   menuList: [],
-};
+});
+
+let menuList = [];
 
 const getMenuList = async () => {
   // getMenuApi().then(res=>{
@@ -78,47 +79,55 @@ const getMenuList = async () => {
   // })
   const res = await getMenuApi();
   if (res.status == 200) {
-    return res.data;
+    reactiveData.menuList = res.data;
+    demenReduce(res.data, menuList);
+    // console.log(menuList)
   }
 };
 
-const getPath = (arr,pid) => {
-  let pathArr = [];
-  let layer = 0;
+const demenReduce = (oldArr = [], newArr = []) => {
+  oldArr.forEach((item) => {
+    let temp = cloneDeep(item);
+    if (temp.children) delete temp.children;
+    newArr.push(temp);
+    if (item.children) {
+      demenReduce(item.children, newArr);
+    }
+  });
+};
 
-  const traverse = (arr = [], pid) => {
-    for (let i = 0; i < arr.length; i++) {
+const getPath = (arr, pid) => {
+  let path = "";
+  const findPath = (arr = [], pid) => {
+    if (pid === 0) return;
+    for (const i in arr) {
       let item = arr[i];
-      if (item.id === pid) {
-        pathArr[layer]=item.id
-        return;
-      }
 
-      if (item.children) {
-        pathArr[layer]=item.id
-        layer+=1
-        traverse(item.children, pid);
+      if (item.id === pid) {
+        path = path ? `/${item.id}/children` + path : `/${item.id}`;
+        findPath(arr, item.pid);
       }
     }
   };
-  traverse(arr,pid)
-  console.log(pathArr)
+  findPath(arr, pid);
+  return path;
 };
 
-const save = (form) => {
+onMounted(() => {
+  getMenuList();
+});
+
+const save = async (form) => {
+  // let data= await test({})
+  // console.log(data)
   form.meta = {
     title: form.title,
   };
-  getPath(menuList, form.pid);
-
-  // createMenuApi(form).then((res) => {
-  //   if (res.status === 200) {
-  //     message.success('添加成功');
-  //     showModal.value = false;
-  //   } else {
-  //     message.error('添加失败');
-  //   }
-  // });
+  let path = getPath(menuList, form.pid);
+  let Item = {};
+  let menuItemRes = await getMenuItemApi("/2?_embad=children/6");
+  Item = menuItemRes.data;
+  console.log(Item);
 };
 </script>
 

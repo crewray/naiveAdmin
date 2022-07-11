@@ -38,3 +38,11 @@ export const getRoleMenuApi=(id)=>{
 export const createMenuApi=(data,path)=>{
     return post('/menu'+path,data)
 }
+//获取菜单项
+export const getMenuItemApi=(path)=>{
+    return get('/menu'+path)
+}
+
+export const test=(data)=>{
+    return put('/demo',data)
+}

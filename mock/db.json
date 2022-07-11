@@ -19,7 +19,7 @@
       "id": 3
     },
     {
-      "username": "lei",
+      "username": "lei1",
       "password": "02bdd5a0d322de0ba211cf5e1c823e69",
       "role_id": 2,
       "id": 4
@@ -67,10 +67,27 @@
       ]
     }
   ],
+  "demo": [
+    {
+      "id": 1,
+      "name": "demo1",
+      "description": "demo1"
+    },
+    {
+      "id": 2,
+      "name": "demo2",
+      "description": "demo2"
+    },
+    {
+      "id": 3,
+      "name": "demo3",
+      "description": "demo3"
+    }
+  ],
   "menu": [
     {
-      "id":1,
-      "pid":0,
+      "id": 1,
+      "pid": 0,
       "title": "首页",
       "path": "/home",
       "name": "home",
@@ -81,8 +98,8 @@
       }
     },
     {
-      "id":2,
-      "pid":0,
+      "id": 2,
+      "pid": 0,
       "title": "echart组件",
       "path": "/echart",
       "name": "echart",
@@ -92,8 +109,8 @@
       "icon": "ChartBar",
       "children": [
         {
-          "id":6,
-          "pid":2,
+          "id": 6,
+          "pid": 2,
           "title": "折线图",
           "path": "/echart/line",
           "name": "line",
@@ -104,8 +121,8 @@
           "component": "/src/pages/echart/line.vue"
         },
         {
-          "id":7,
-          "pid":2,
+          "id": 7,
+          "pid": 2,
           "title": "柱状图",
           "path": "/echart/bar",
           "name": "bar",
@@ -116,8 +133,8 @@
           "component": "/src/pages/echart/bar.vue"
         },
         {
-          "id":8,
-          "pid":2,
+          "id": 8,
+          "pid": 2,
           "title": "饼图",
           "path": "/echart/pie",
           "name": "pie",
@@ -128,8 +145,8 @@
           "component": "/src/pages/echart/pie.vue"
         },
         {
-          "id":9,
-          "pid":2,
+          "id": 9,
+          "pid": 2,
           "title": "雷达图",
           "path": "/echart/radar",
           "name": "radar",
@@ -140,8 +157,8 @@
           "component": "/src/pages/echart/radar.vue"
         },
         {
-          "id":10,
-          "pid":2,
+          "id": 10,
+          "pid": 2,
           "title": "环形图",
           "path": "/echart/ring",
           "name": "ring",
@@ -154,8 +171,8 @@
       ]
     },
     {
-      "id":3,
-      "pid":0,
+      "id": 3,
+      "pid": 0,
       "title": "表单组件",
       "path": "/form",
       "name": "form",
@@ -165,8 +182,8 @@
       "icon": "Wpforms",
       "children": [
         {
-          "id":11,
-          "pid":3,
+          "id": 11,
+          "pid": 3,
           "title": "富文本编辑器",
           "path": "/form/editor",
           "name": "editor",
@@ -177,8 +194,8 @@
           "component": "/src/pages/form/editor.vue"
         },
         {
-          "id":12,
-          "pid":2,
+          "id": 12,
+          "pid": 2,
           "title": "上传组件",
           "path": "/form/upload",
           "name": "upload",
@@ -191,8 +208,8 @@
       ]
     },
     {
-      "id":4,
-      "pid":0,
+      "id": 4,
+      "pid": 0,
       "title": "demo",
       "path": "/demo",
       "name": "demo",
@@ -203,8 +220,8 @@
       "component": "/src/pages/demo/demo.vue"
     },
     {
-      "id":5,
-      "pid":0,
+      "id": 5,
+      "pid": 0,
       "title": "系统管理",
       "path": "/sys",
       "name": "system",
@@ -214,8 +231,8 @@
       },
       "children": [
         {
-          "id":13,
-          "pid":3,
+          "id": 13,
+          "pid": 3,
           "title": "用户管理",
           "path": "/sys/user",
           "name": "user",
@@ -226,8 +243,8 @@
           "component": "/src/pages/sys/user.vue"
         },
         {
-          "id":14,
-          "pid":3,
+          "id": 14,
+          "pid": 3,
           "title": "角色管理",
           "path": "/sys/role",
           "name": "role",
@@ -238,8 +255,8 @@
           "component": "/src/pages/sys/role.vue"
         },
         {
-          "id":15,
-          "pid":3,
+          "id": 15,
+          "pid": 3,
           "title": "菜单管理",
           "path": "/sys/menu",
           "name": "menu",

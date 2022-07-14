@@ -12,6 +12,7 @@ export default defineConfig({
   plugins: [
     vue(),
     Components({
+      //按需引入naive-ui
       resolvers: [NaiveUiResolver()],
     }),
   ],
@@ -24,3 +25,4 @@ export default defineConfig({
     
   },
 });
+

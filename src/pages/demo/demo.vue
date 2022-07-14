@@ -18,17 +18,14 @@
 <script setup>
 import { h, ref,reactive, watch,shallowRef } from "vue";
 import * as fa from "@vicons/fa";
+import {menuList} from '@/data/menuOne.js'
+import { cloneDeep } from "lodash";
 const showModal=ref(false);
 const iconList = [];
 for (const key in fa) {
   iconList.push(fa[key]);
 }
-// const pageData=reactive({
-//   page:1,
-//   pageSize:10,
-//   total:iconList.length,
-//   currentPageList:[]
-// })
+
 const page=ref(1);
 const pageSize=ref(50);
 const total=ref(iconList.length);
@@ -45,6 +42,29 @@ const emit=defineEmits(['onSelect']);
 const select=function(name){
   emit('onSelect',name);
 }
+
+const newMenuList=[]
+const menuClone=cloneDeep(menuList)
+
+
+const reveal= (menu=[])=>{
+  for(const i in menuClone){
+    const item=menuClone[i]
+    if(item.pid===0){
+      menu.push(item)
+    }
+    else{
+      let index=menu.findIndex(element=>element.pid===item.id)
+      if(index>=0){
+        item.children.push(item)
+      }
+    }
+    
+  }
+}
+
+// reveal(newMenuList)
+// console.log(newMenuList)
 
 
 

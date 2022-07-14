@@ -81,7 +81,7 @@ const getMenuList = async () => {
   if (res.status == 200) {
     reactiveData.menuList = res.data;
     demenReduce(res.data, menuList);
-    // console.log(menuList)
+    console.log(menuList)
   }
 };
 
@@ -124,10 +124,10 @@ const save = async (form) => {
     title: form.title,
   };
   let path = getPath(menuList, form.pid);
-  let Item = {};
-  let menuItemRes = await getMenuItemApi("/2?_embad=children/6");
-  Item = menuItemRes.data;
-  console.log(Item);
+  // let Item = {};
+  // let menuItemRes = await getMenuItemApi("/2?_embad=children/6");
+  // Item = menuItemRes.data;
+  // console.log(Item);
 };
 </script>
 

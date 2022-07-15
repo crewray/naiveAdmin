@@ -107,7 +107,7 @@ export const menuList=[
     },
     {
         "id": 12,
-        "pid": 2,
+        "pid": 3,
         "title": "上传组件",
         "path": "/form/upload",
         "name": "upload",
@@ -142,7 +142,7 @@ export const menuList=[
     },
     {
         "id": 13,
-        "pid": 3,
+        "pid": 5,
         "title": "用户管理",
         "path": "/sys/user",
         "name": "user",
@@ -154,7 +154,7 @@ export const menuList=[
     },
     {
         "id": 14,
-        "pid": 3,
+        "pid": 5,
         "title": "角色管理",
         "path": "/sys/role",
         "name": "role",
@@ -166,7 +166,7 @@ export const menuList=[
     },
     {
         "id": 15,
-        "pid": 3,
+        "pid": 5,
         "title": "菜单管理",
         "path": "/sys/menu",
         "name": "menu",

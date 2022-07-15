@@ -157,7 +157,6 @@ router.beforeEach(async (to, from, next) => {
   } else {
     const userStr = localStorage.getItem("userInfo");
     const user = JSON.parse(userStr);
-    console.log(user);
     if (user && user.id) {
       // if (/^\/sys\/.*/.test(to.path) && user.role_id != 1) {
       //   next("/no_right/index");

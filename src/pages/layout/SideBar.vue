@@ -3,7 +3,7 @@
     :inverted="true"
     :collapsed-width="64"
     :collapsed-icon-size="22"
-    :options="roleMenu"
+    :options="reactiveData.menuList"
     :value="actived"
     @update:value="handleUpdateValue"
     class="side-menu"
@@ -23,6 +23,8 @@ import { NIcon } from "naive-ui";
 import { useRouter } from "vue-router";
 import { getRoleMenuApi,getMenuApi } from "@/api/sys.js";
 
+import {reveal} from '@/utils/toTree.js'
+
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -41,19 +43,21 @@ function formatMenu(menu) {
     if (item.icon) {
       item.icon = renderIcon(fa[item.icon]);
     }
-    if (item.children) {
-      item.children = formatMenu(item.children);
-    }
+    
     return item
   });
   return newMenu
 }
 
+const reactiveData= reactive({
+  menuList:[]
+})
+
 const menus=reactive([])
 const roleMenu = reactive([]);
 getMenuApi().then(res=>{
-  Object.assign(menus,formatMenu(res.data))
-  Object.assign(roleMenu,[...menus])
+  const tmp=formatMenu(res.data)
+  reveal(reactiveData.menuList,tmp)
   
 })
 

@@ -1,3 +1,4 @@
+// 获取数据同时删除原数据
 const myFilter = function (newArr, oldArr, callback) {
     for (let i = 0; i < oldArr.length; ) {
       const item = oldArr[i];
@@ -11,8 +12,9 @@ const myFilter = function (newArr, oldArr, callback) {
       }
     }
   };
-  
-export  const reveal = (menu = [], oldMenu) => {
+
+ // 还原成树形结构 
+export  const toTree = (menu = [], oldMenu) => {
     if (!menu.length)
       myFilter(menu,oldMenu,item=>item.pid===0)
     for(const i in menu){
@@ -25,7 +27,7 @@ export  const reveal = (menu = [], oldMenu) => {
       if(item.children){
         
         myFilter(item.children,oldMenu,element=>element.pid===item.id)
-        reveal(item.children,oldMenu)
+        toTree(item.children,oldMenu)
         
       }
       

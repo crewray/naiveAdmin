@@ -23,7 +23,7 @@ import { NIcon } from "naive-ui";
 import { useRouter } from "vue-router";
 import { getRoleMenuApi,getMenuApi } from "@/api/sys.js";
 
-import {reveal} from '@/utils/toTree.js'
+import {toTree} from '@/utils/toTree.js'
 
 
 function renderIcon(icon) {
@@ -57,7 +57,7 @@ const menus=reactive([])
 const roleMenu = reactive([]);
 getMenuApi().then(res=>{
   const tmp=formatMenu(res.data)
-  reveal(reactiveData.menuList,tmp)
+  toTree(reactiveData.menuList,tmp)
   
 })
 

@@ -145,7 +145,7 @@ async function getRouteList() {
 }
 
 let hasRoles = true;
-const routeList = await getRouteList();
+
 
 router.beforeEach(async (to, from, next) => {
   if (to.meta.title) {
@@ -157,12 +157,14 @@ router.beforeEach(async (to, from, next) => {
   } else {
     const userStr = localStorage.getItem("userInfo");
     const user = JSON.parse(userStr);
-    if (user && user.uid) {
+    console.log(user);
+    if (user && user.id) {
       // if (/^\/sys\/.*/.test(to.path) && user.role_id != 1) {
       //   next("/no_right/index");
       // }
-      
+
       if (hasRoles) {
+        const routeList= await getRouteList();
         routeList.forEach((item) => {
           router.addRoute(item);
         });

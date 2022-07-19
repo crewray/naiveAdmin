@@ -25,3 +25,4 @@ json-server: https://github.com/typicode/json-server
 ## 预览
 
 [demo](http://naive.laolei.ml/)
+[备用](http://v.laolei.ml/)

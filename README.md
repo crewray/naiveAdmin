@@ -23,6 +23,6 @@ json-server: https://github.com/typicode/json-server
 ` npm run build`
 
 ## 预览
-
+可能需要翻墙
 [demo](http://naive.laolei.ml/)
 [备用](http://v.laolei.ml/)

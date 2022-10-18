@@ -9,7 +9,7 @@
     <n-form-item label="父级">
       <n-tree-select
         v-model:value="form.pid"
-        :options="menuList"
+        :options="reactiveData.menuList"
         label-field="title"
         key-field="id"
         placeholder="请选择父级"
@@ -66,6 +66,12 @@ import IconSelect from "./IconSelect.vue";
 import { AngleRight, WindowCloseRegular } from "@vicons/fa";
 import { reactive, ref } from "vue";
 import {menuList} from "@/data/menu.js";
+import { toTree } from "../../../utils/toTree";
+
+const reactiveData=reactive({
+  menuList:[]
+})
+reactiveData.menuList=toTree([...menuList.value])
 
 const form = reactive({
   icon: "",
@@ -73,7 +79,7 @@ const form = reactive({
   title: "",
   path: "",
   component: "",
-  pid: "",
+  pid: 0,
 });
 
 const showPopover = ref(false);

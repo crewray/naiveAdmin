@@ -22,7 +22,7 @@
           checkable
           key-field="path"
           label-field="title"
-          :data="menuList"
+          :data="reactiveData.menuList"
           :default-checked-keys="defaultCheckedKeys"
           @update:checked-keys="updateCheckedKeys"
         />
@@ -33,17 +33,23 @@
 
 <script setup>
 import { NForm, NFormItem, NInput, NSelect, NButton } from "naive-ui";
-import { reactive } from "vue";
+import { reactive,ref } from "vue";
 import { menuList } from "@/data/menu.js";
+import { toTree } from "../../../utils/toTree";
+console.log(menuList)
+const reactiveData=reactive({
+  menuList:[]
+})
+reactiveData.menuList=toTree([...menuList.value])
 const props = defineProps({ row: {}, index: Number });
 const { row, index } = props;
 // console.log(row)
 const role = reactive({ ...row });
-const defaultCheckedKeys = row.access;
-const updateCheckedKeys=(checkedKeys)=>{
+const defaultCheckedKeys = row ? row.access : [];
+const updateCheckedKeys = (checkedKeys) => {
   role.access = checkedKeys;
   // console.log(checkedKeys);
-}
+};
 
 defineExpose({ role });
 </script>

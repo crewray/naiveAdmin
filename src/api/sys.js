@@ -35,12 +35,16 @@ export const getRoleMenuApi=(id)=>{
     return get('/role/'+id)
 }
 //添加菜单
-export const createMenuApi=(data,path)=>{
-    return post('/menu'+path,data)
+export const createMenuApi=(data)=>{
+    return post('/menu',data)
 }
 //获取菜单项
 export const getMenuItemApi=(path)=>{
     return get('/menu'+path)
+}
+//删除菜单项
+export const deleteMenuApi=(id)=>{
+    return delete_('/menu',id)
 }
 
 export const test=(data)=>{

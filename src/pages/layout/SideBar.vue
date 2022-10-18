@@ -57,7 +57,7 @@ const menus=reactive([])
 const roleMenu = reactive([]);
 getMenuApi().then(res=>{
   const tmp=formatMenu(res.data)
-  toTree(reactiveData.menuList,tmp)
+  reactiveData.menuList= toTree(tmp)
   
 })
 

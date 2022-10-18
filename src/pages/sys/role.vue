@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-card class="box-card h100" title="用户数据">
+    <n-card class="box-card h100" title="角色管理">
       <n-button
         @click="addOrEditRole('添加角色')"
         class="mb-10"

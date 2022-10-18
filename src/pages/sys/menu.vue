@@ -22,10 +22,16 @@
 
 <script setup>
 import { h, ref, onMounted, reactive } from "vue";
-import { NButton, useDialog } from "naive-ui";
+import { NButton, useDialog, useMessage } from "naive-ui";
 import menuForm from "./components/menuForm.vue";
-import { createMenuApi, getMenuApi, getMenuItemApi, test } from "@/api/sys";
+import {
+  createMenuApi,
+  getMenuApi,
+  getMenuItemApi,
+  deleteMenuApi,
+} from "@/api/sys";
 import { cloneDeep } from "lodash";
+import { toTree } from "../../utils/toTree";
 const columns = [
   {
     title: "标志",
@@ -51,7 +57,13 @@ const columns = [
         h(NButton, { type: "primary" }, { default: () => "编辑" }),
         h(
           NButton,
-          { type: "error", style: { marginLeft: "10px" } },
+          {
+            type: "error",
+            style: { marginLeft: "10px" },
+            onClick: () => {
+              deleteMenu(row.id);
+            },
+          },
           { default: () => "删除" }
         ),
       ];
@@ -61,6 +73,8 @@ const columns = [
 const rowKey = (row) => row.name;
 
 const showModal = ref(false);
+const message = useMessage();
+const dialog = useDialog();
 const openForm = () => {
   showModal.value = true;
 };
@@ -72,16 +86,9 @@ const reactiveData = reactive({
 let menuList = [];
 
 const getMenuList = async () => {
-  // getMenuApi().then(res=>{
-  //   if(res.status==200){
-  //     reactiveData.menuList=res.data
-  //   }
-  // })
   const res = await getMenuApi();
   if (res.status == 200) {
-    reactiveData.menuList = res.data;
-    demenReduce(res.data, menuList);
-    console.log(menuList)
+    reactiveData.menuList = toTree(res.data);
   }
 };
 
@@ -118,16 +125,38 @@ onMounted(() => {
 });
 
 const save = async (form) => {
-  // let data= await test({})
-  // console.log(data)
+  console.log(form);
   form.meta = {
     title: form.title,
   };
-  let path = getPath(menuList, form.pid);
-  // let Item = {};
-  // let menuItemRes = await getMenuItemApi("/2?_embad=children/6");
-  // Item = menuItemRes.data;
-  // console.log(Item);
+  const res = await createMenuApi(form);
+  console.log(res);
+  if (res.status >= 200 && res.status < 300) {
+    
+    message.success("添加成功");
+    showModal.value = false;
+    getMenuList()
+  } else {
+    message.error("添加失败");
+  }
+};
+const deleteMenu = async (id) => {
+  dialog.success({
+    title: "提示",
+    content: "确定删除该项吗？",
+    positiveText: "确定",
+    negativeText: "取消",
+    onPositiveClick: () => {
+      deleteMenuApi(id).then((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          message.success("删除成功");
+          getMenuList();
+        } else {
+          message.error("删除失败");
+        }
+      });
+    },
+  });
 };
 </script>
 

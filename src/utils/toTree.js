@@ -14,7 +14,8 @@ const myFilter = function (newArr, oldArr, callback) {
   };
 
  // 还原成树形结构 
-export  const toTree = (menu = [], oldMenu) => {
+export  const toTree = ( oldMenu) => {
+  const menu = [];
     if (!menu.length)
       myFilter(menu,oldMenu,item=>item.pid===0)
     for(const i in menu){
@@ -32,6 +33,7 @@ export  const toTree = (menu = [], oldMenu) => {
       }
       
     }
+    return menu
   };
 
 

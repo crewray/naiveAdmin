@@ -1,7 +1,7 @@
 <template>
   <div>
     <n-card class="h100" title="菜单管理">
-      <n-button @click="openForm()" class="mb-10" size="small" type="info"
+      <n-button @click="openForm(0)" class="mb-10" size="small" type="info"
         >添加菜单</n-button
       >
       <n-data-table
@@ -13,8 +13,12 @@
       >
       </n-data-table>
       <n-modal :mask-closable="false" preset="dialog" v-model:show="showModal">
-        <template #header> 添加菜单 </template>
-        <menuForm @on-save="save" @on-close="showModal = false" />
+        <template #header> {{ formTitle }} </template>
+        <menuForm
+          :form="curRow"
+          @on-save="save"
+          @on-close="showModal = false"
+        />
       </n-modal>
     </n-card>
   </div>
@@ -29,6 +33,7 @@ import {
   getMenuApi,
   getMenuItemApi,
   deleteMenuApi,
+  updateMenuApi,
 } from "@/api/sys";
 import { cloneDeep } from "lodash";
 import { toTree } from "../../utils/toTree";
@@ -54,7 +59,16 @@ const columns = [
     key: "action",
     render: (row, index) => {
       return [
-        h(NButton, { type: "primary" }, { default: () => "编辑" }),
+        h(
+          NButton,
+          {
+            type: "primary",
+            onClick: () => {
+              openForm(1, row);
+            },
+          },
+          { default: () => "编辑" }
+        ),
         h(
           NButton,
           {
@@ -75,7 +89,20 @@ const rowKey = (row) => row.name;
 const showModal = ref(false);
 const message = useMessage();
 const dialog = useDialog();
-const openForm = () => {
+const curRow = ref({});
+const isEdit = ref(0);
+const formTitle = ref("");
+const openForm = (is_edit, row) => {
+  if (is_edit) {
+    isEdit.value = 1;
+    formTitle.value = "编辑菜单";
+  } else {
+    isEdit.value = 0;
+    formTitle.value = "添加菜单";
+  }
+  if (row) {
+    curRow.value = row;
+  }
   showModal.value = true;
 };
 
@@ -125,19 +152,29 @@ onMounted(() => {
 });
 
 const save = async (form) => {
-  console.log(form);
+  // console.log(form);
   form.meta = {
     title: form.title,
   };
-  const res = await createMenuApi(form);
-  console.log(res);
-  if (res.status >= 200 && res.status < 300) {
-    
-    message.success("添加成功");
-    showModal.value = false;
-    getMenuList()
-  } else {
-    message.error("添加失败");
+  if (isEdit.value === 0) {
+    const res = await createMenuApi(form);
+    // console.log(res);
+    if (res.status >= 200 && res.status < 300) {
+      message.success("添加成功");
+      showModal.value = false;
+      getMenuList();
+    } else {
+      message.error("添加失败");
+    }
+  }else{
+    const res =await updateMenuApi(form)
+    if (res.status >= 200 && res.status < 300) {
+      message.success("修改成功");
+      showModal.value = false;
+      getMenuList();
+    } else {
+      message.error("修改失败");
+    }
   }
 };
 const deleteMenu = async (id) => {

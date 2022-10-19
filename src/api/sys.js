@@ -47,6 +47,11 @@ export const deleteMenuApi=(id)=>{
     return delete_('/menu',id)
 }
 
+//修改菜单项
+export const updateMenuApi=(data)=>{
+    return put('/menu',data)
+}
+
 export const test=(data)=>{
     return put('/demo',data)
 }

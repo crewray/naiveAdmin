@@ -68,6 +68,8 @@ import { reactive, ref } from "vue";
 import {menuList} from "@/data/menu.js";
 import { toTree } from "../../../utils/toTree";
 
+const props=defineProps({form:{}})
+
 const reactiveData=reactive({
   menuList:[]
 })
@@ -81,6 +83,8 @@ const form = reactive({
   component: "",
   pid: 0,
 });
+
+Object.assign(form,props.form)
 
 const showPopover = ref(false);
 

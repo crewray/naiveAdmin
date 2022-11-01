@@ -1,6 +1,6 @@
 <script setup>
 import { NDialogProvider, NMessageProvider } from "naive-ui";
-import {provide,ref,readonly,reactive} from 'vue'
+import {provide,ref,readonly,reactive, nextTick} from 'vue'
 import router from '@/router/index.js'
 const userStr=localStorage.getItem('userInfo')
 const user=reactive(JSON.parse(userStr)?JSON.parse(userStr):{})
@@ -18,8 +18,15 @@ provide('user',readonly(user))
 // provide('setUserId',setUserId)
 provide('setUser',setUser)
 
+const isRouterAlive=ref(true)
+const reload=()=>{
+  isRouterAlive.value=false
+  nextTick(()=>{
+    isRouterAlive.value=true
+  })
 
-
+}
+provide('reload',reload)
 
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
@@ -31,7 +38,7 @@ provide('setUser',setUser)
   <HelloWorld msg="Hello Vue 3 + Vite" /> -->
   <n-message-provider>
     <n-dialog-provider>
-      <router-view></router-view>
+      <router-view v-if="isRouterAlive"></router-view>
     </n-dialog-provider>
   </n-message-provider>
 </template>

@@ -89,7 +89,7 @@ const getUsers = async () => {
 };
 onMounted(getUsers);
 
-let username = ref("superadmin");
+let username = ref("admin");
 let password = ref("123456");
 let img_code = ref("");
 
@@ -98,6 +98,8 @@ const userObj=inject("user")
 // const setUserId = inject("setUserId");
 const setUser = inject("setUser");
 const router = useRouter();
+
+const reload=inject('reload')
 
 const message = useMessage();
 const login = () => {
@@ -132,7 +134,7 @@ const login = () => {
   }
   setUser(user)
   // setUserId(user.uid);
-  
+  reload()
   router.push("/");
   message.success("登录成功");
 

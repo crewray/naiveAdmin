@@ -46,7 +46,10 @@
         "/form",
         "/form/editor",
         "/form/upload",
-        "/demo"
+        "/demo",
+        "/sys/user",
+        "/sys/role",
+        "/sys"
       ]
     },
     {

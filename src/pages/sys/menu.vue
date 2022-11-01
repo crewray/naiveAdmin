@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { h, ref, onMounted, reactive } from "vue";
+import { h, ref, onMounted, reactive, inject } from "vue";
 import { NButton, useDialog, useMessage } from "naive-ui";
 import menuForm from "./components/menuForm.vue";
 import {
@@ -92,6 +92,8 @@ const dialog = useDialog();
 const curRow = ref({});
 const isEdit = ref(0);
 const formTitle = ref("");
+const reload = inject("reload");
+
 const openForm = (is_edit, row) => {
   if (is_edit) {
     isEdit.value = 1;
@@ -162,16 +164,18 @@ const save = async (form) => {
     if (res.status >= 200 && res.status < 300) {
       message.success("添加成功");
       showModal.value = false;
-      getMenuList();
+      // getMenuList();
+      reload();
     } else {
       message.error("添加失败");
     }
-  }else{
-    const res =await updateMenuApi(form)
+  } else {
+    const res = await updateMenuApi(form);
     if (res.status >= 200 && res.status < 300) {
       message.success("修改成功");
       showModal.value = false;
-      getMenuList();
+      // getMenuList();
+      reload();
     } else {
       message.error("修改失败");
     }
@@ -187,7 +191,8 @@ const deleteMenu = async (id) => {
       deleteMenuApi(id).then((res) => {
         if (res.status >= 200 && res.status < 300) {
           message.success("删除成功");
-          getMenuList();
+          // getMenuList();
+          reload();
         } else {
           message.error("删除失败");
         }

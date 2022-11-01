@@ -36,6 +36,8 @@ function handleUpdateValue(key, item) {
   router.push(item.path);
 }
 
+
+
 function formatMenu(menu) {
   const newMenu = menu.map((item) => {
     
@@ -48,6 +50,7 @@ function formatMenu(menu) {
   });
   return newMenu
 }
+
 
 const reactiveData= reactive({
   menuList:[]
@@ -76,11 +79,12 @@ if (user.role_id !== 1) {
   getRoleMenuApi(user.role_id).then((res) => {
     if (res.status == 200) {
       const access = res.data.access;
-      console.log(menuFilter(roleMenu, access));
-      roleMenu.splice(0, roleMenu.length, ...menuFilter(roleMenu, access));
+      console.log(access)
+      // console.log(menuFilter(roleMenu, access));
+      reactiveData.menuList.splice(0, reactiveData.menuList.length, ...menuFilter(reactiveData.menuList, access));
     }
   });
 }else{
-  Object.assign(roleMenu,menus)
+  Object.assign(reactiveData.menuList,menus)
 }
 </script>

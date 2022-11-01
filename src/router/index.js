@@ -108,14 +108,17 @@ const user = localStorage.getItem("userInfo")
 
 async function getRouteList() {
   const res = await getMenuApi();
+  let access=null
   if (user && user.role_id !== 1) {
-    const access = await getRoleMenuApi(user.role_id);
+     access = await getRoleMenuApi(user.role_id);
+    
   }
   if (res.status == 200) {
     let routeList = formatRoutes(res.data);
     if (user && user.role_id !== 1) {
+      // console.log(access)
       if (access.status == 200) {
-        routeList = menuFilter(routeList, access.data);
+        routeList = menuFilter(routeList, access.data.access);
       }
     }
 

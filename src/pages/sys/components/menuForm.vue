@@ -67,13 +67,17 @@ import { AngleRight, WindowCloseRegular } from "@vicons/fa";
 import { reactive, ref } from "vue";
 import {menuList} from "@/data/menu.js";
 import { toTree } from "../../../utils/toTree";
+import { cloneDeep } from "lodash";
 
 const props=defineProps({form:{}})
 
 const reactiveData=reactive({
   menuList:[]
 })
-reactiveData.menuList=toTree([...menuList.value])
+const tmp=cloneDeep(menuList.value)
+reactiveData.menuList=toTree(tmp)
+
+console.log(reactiveData.menuList)
 
 const form = reactive({
   icon: "",
@@ -106,6 +110,7 @@ const close = function () {
 
 const changePid = function (pid) {
   form.pid = pid;
+  
 };
 </script>
 

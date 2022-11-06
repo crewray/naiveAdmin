@@ -58,33 +58,52 @@ const reactiveData= reactive({
 
 const menus=reactive([])
 const roleMenu = reactive([]);
-getMenuApi().then(res=>{
+const user = inject("user");
+
+const getRoleMenu= (menu=[],access=[])=>{
+  return menu.filter(item=> access.includes(item.path))
+}
+
+const getUserAccess=async (menu)=>{
+  const res=await getRoleMenuApi(user.role_id)
+  const access=res.data.access
+  return getRoleMenu(menu,access)
+}
+getMenuApi().then(async (res)=>{
+  // getUserAccess()
   const tmp=formatMenu(res.data)
-  reactiveData.menuList= toTree(tmp)
+  let roleMenu=[]
+  if(user.role_id !==1){
+    roleMenu= await getUserAccess(tmp)
+  }else{
+    roleMenu=tmp
+  }
+  reactiveData.menuList= toTree(roleMenu)
   
 })
 
 
 
-const user = inject("user");
-const menuFilter = (menu = [], access = []) => {
-  return menu.filter((item) => {
-    if (item.children) {
-      item.children = menuFilter(item.children, access);
-    }
-    return access.includes(item.path);
-  });
-};
-if (user.role_id !== 1) {
-  getRoleMenuApi(user.role_id).then((res) => {
-    if (res.status == 200) {
-      const access = res.data.access;
-      console.log(access)
-      // console.log(menuFilter(roleMenu, access));
-      reactiveData.menuList.splice(0, reactiveData.menuList.length, ...menuFilter(reactiveData.menuList, access));
-    }
-  });
-}else{
-  Object.assign(reactiveData.menuList,menus)
-}
+
+// const user = inject("user");
+// const menuFilter = (menu = [], access = []) => {
+//   return menu.filter((item) => {
+//     if (item.children) {
+//       item.children = menuFilter(item.children, access);
+//     }
+//     return access.includes(item.path);
+//   });
+// };
+// if (user.role_id !== 1) {
+//   getRoleMenuApi(user.role_id).then((res) => {
+//     if (res.status == 200) {
+//       const access = res.data.access;
+//       // console.log(access)
+//       // console.log(menuFilter(roleMenu, access));
+//       reactiveData.menuList.splice(0, reactiveData.menuList.length, ...menuFilter(reactiveData.menuList, access));
+//     }
+//   });
+// }else{
+//   Object.assign(reactiveData.menuList,menus)
+// }
 </script>

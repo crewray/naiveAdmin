@@ -89,7 +89,7 @@ const getUsers = async () => {
 };
 onMounted(getUsers);
 
-let username = ref("admin");
+let username = ref("superadmin");
 let password = ref("123456");
 let img_code = ref("");
 

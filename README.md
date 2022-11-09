@@ -24,5 +24,5 @@ json-server: https://github.com/typicode/json-server
 
 ## 预览
 可能需要科学上网
-[demo](http://naive.laolei.ml/)
+[demo](https://www.xiaolei.ga/)
 [备用](http://172.245.72.164:3000/)

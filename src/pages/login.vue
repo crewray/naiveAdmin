@@ -1,5 +1,5 @@
 <template>
-  <div class="login-wrap ">
+  <div class="login-wrap">
     <div class="login">
       <div class="titile tac f666 mt-15 mb-10 f20">
         excitingAdmin后台管理系统
@@ -60,7 +60,7 @@ import { NInput, NIcon, NButton, useMessage } from "naive-ui";
 import { User, Lock, CheckCircleRegular } from "@vicons/fa";
 import { inject, ref, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
-import { getUserListApi } from "@/api/sys.js";
+import { getUserListApi, loginApi } from "@/api/sys.js";
 import Verify from "@/components/Verify.vue";
 import md5 from "js-md5";
 
@@ -80,29 +80,29 @@ const backImageCode = (code) => {
   // console.log("data", data.img_code);
 };
 
-let userList = [];
-const getUsers = async () => {
-  const res = await getUserListApi();
-  if (res.status == 200) {
-    userList = res.data;
-  }
-};
-onMounted(getUsers);
+// let userList = [];
+// const getUsers = async () => {
+//   const res = await getUserListApi();
+//   if (res.status == 200) {
+//     userList = res.data;
+//   }
+// };
+// onMounted(getUsers);
 
 let username = ref("superadmin");
 let password = ref("123456");
 let img_code = ref("");
 
 // let userId = inject("userId");
-const userObj=inject("user")
+const userObj = inject("user");
 // const setUserId = inject("setUserId");
 const setUser = inject("setUser");
 const router = useRouter();
 
-const reload=inject('reload')
+const reload = inject("reload");
 
 const message = useMessage();
-const login = () => {
+const login = async () => {
   if (!username.value) {
     message.error("请输入用户名");
     return;
@@ -115,26 +115,35 @@ const login = () => {
     message.error("请输入验证码");
     return;
   }
-  const user = userList.find((item) => {
-    return item.username == username.value;
-  });
-  if (!user) {
-    message.error("用户名不存在");
-    return;
-  }
-  if (user.password != md5(password.value)) {
-    message.error("密码错误");
-    return;
-  }
-  // console.log(md5(img_code.value));
   if (md5(img_code.value) !== data.img_code) {
     message.error("验证码错误");
     changeImageCode();
     return;
   }
-  setUser(user)
+  const loginRes= await loginApi({ username: username.value, password: md5(password.value) })
+  let user
+  if(loginRes.status==200){
+    user=loginRes.data[0]
+  }
+  else{
+    message.error(loginRes.statusText)
+  }
+  // const user = userList.find((item) => {
+  //   return item.username == username.value;
+  // });
+  if (!user) {
+    message.error("密码错误");
+    return;
+  }
+  // if (user.password != md5(password.value)) {
+  //   message.error("密码错误");
+  //   return;
+  // }
+  // console.log(md5(img_code.value));
+  
+  setUser(user);
   // setUserId(user.uid);
-  reload()
+  reload();
   router.push("/");
   message.success("登录成功");
 

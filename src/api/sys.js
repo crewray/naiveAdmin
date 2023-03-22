@@ -55,3 +55,13 @@ export const updateMenuApi=(data)=>{
 export const test=(data)=>{
     return put('/demo',data)
 }
+
+//登录
+export const loginApi=(data)=>{
+    let param=''
+    for(let key in data){
+        param+=`${key}=${data[key]}&`
+    }
+    if(param) param=param.slice(0,-1)
+    return get('/user?'+param)
+}

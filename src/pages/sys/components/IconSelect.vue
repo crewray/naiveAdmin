@@ -1,5 +1,12 @@
 <template>
   <div class="iconSelect">
+    <n-input-group  class="mb-20">
+      
+      <n-input v-model:value="search" placeholder="请输入" />
+      <n-button @click="searchIcon" type="primary" ghost>
+        搜索
+      </n-button>
+    </n-input-group>
       <n-button @click="select(item.name)" class="pl-5 pr-5"  text v-for="item in currentPageList" :key="item.name">
         <n-icon size="50"  :component="item"></n-icon>
       </n-button>
@@ -10,7 +17,9 @@
         v-model:page-size="pageSize"
         :item-count="total"
         show-size-picker
-        :page-sizes="[ 50, 100, 150, 200 ]"
+        :page-sizes="[ 20, 30, 40, 50 ]"
+        :on-update:page="changePage"
+        :on-update:page-size="changeSize"
       />
   </div>
 </template>
@@ -23,21 +32,36 @@ const iconList = [];
 for (const key in fa) {
   iconList.push(fa[key]);
 }
-// const pageData=reactive({
-//   page:1,
-//   pageSize:10,
-//   total:iconList.length,
-//   currentPageList:[]
-// })
+
 const page=ref(1);
 const pageSize=ref(50);
 const total=ref(iconList.length);
+
+
 const currentPageList=shallowRef(iconList.slice(0,pageSize.value));
-watch([page,pageSize],(newVal,oldVal)=>{
-  const start=(newVal[0]-1)*newVal[1];
-  const end=start+newVal[1];
-  currentPageList.value=iconList.slice(start,end);
-})
+const search=ref('')
+const searchIcon=()=>{
+  console.log(search)
+  loadList()
+}
+const loadList=()=>{
+  let searchList=iconList
+  if(search.value)
+    searchList=iconList.filter(item=>item.name.toLowerCase().includes(search.value.toLowerCase()))
+  let start=(page.value-1)*pageSize.value
+  let end=start+pageSize.value
+  currentPageList.value=searchList.slice(start,end)
+}
+
+const changePage=(pageNum)=>{
+  page.value=pageNum
+  loadList()
+}
+
+const changeSize=(pageSizeNum)=>{
+  pageSize.value=pageSizeNum
+  loadList()
+}
 
 const emit=defineEmits(['onSelect']);
 
@@ -45,6 +69,7 @@ const emit=defineEmits(['onSelect']);
 const select=function(name){
   emit('onSelect',name);
 }
+
 
 
 

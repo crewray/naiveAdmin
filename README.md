@@ -16,7 +16,7 @@ json-server: https://github.com/typicode/json-server
 
 ## 启动
 
-`npm run dev`
+`npm run mockdev`
 
 ## 打包
 
@@ -24,5 +24,4 @@ json-server: https://github.com/typicode/json-server
 
 ## 预览
 可能需要科学上网
-[demo](https://www.xiaolei.ga/)
-[备用](http://172.245.72.164:3000/)
+[demo](http://13.229.110.98/)

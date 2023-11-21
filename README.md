@@ -9,7 +9,10 @@ vite文档:https://cn.vitejs.dev/
 vue3文档：https://v3.cn.vuejs.org/guide/introduction.html
 
 json-server: https://github.com/typicode/json-server
-
+## 亮点
+- 开箱即用, 添加菜单页面无需编写代码
+- 基于权限的动态路由
+- mock数据
 ## 安装
 
 `npm i或 yarn install`

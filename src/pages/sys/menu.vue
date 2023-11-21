@@ -1,7 +1,12 @@
 <template>
   <div>
     <n-card class="h100" title="菜单管理">
-      <n-button @click="openForm(0)" class="mb-10" size="small" type="info"
+      <n-button
+        :disabled="user.role_id != 1"
+        @click="openForm(0)"
+        class="mb-10"
+        size="small"
+        type="info"
         >添加菜单</n-button
       >
       <n-data-table
@@ -16,6 +21,7 @@
         <template #header> {{ formTitle }} </template>
         <menuForm
           :form="curRow"
+          :isEdit="isEdit"
           @on-save="save"
           @on-close="showModal = false"
         />
@@ -37,6 +43,7 @@ import {
 } from "@/api/sys";
 import { cloneDeep } from "lodash";
 import { toTree } from "../../utils/toTree";
+import axios from "axios";
 const columns = [
   {
     title: "标志",
@@ -93,6 +100,7 @@ const curRow = ref({});
 const isEdit = ref(0);
 const formTitle = ref("");
 const reload = inject("reload");
+const user = inject("user");
 
 const openForm = (is_edit, row) => {
   if (is_edit) {
@@ -101,6 +109,7 @@ const openForm = (is_edit, row) => {
   } else {
     isEdit.value = 0;
     formTitle.value = "添加菜单";
+    curRow.value = {};
   }
   if (row) {
     curRow.value = row;
@@ -159,13 +168,24 @@ const save = async (form) => {
     title: form.title,
   };
   if (isEdit.value === 0) {
+    form.component = "/src/pages" + form.path + ".vue";
     const res = await createMenuApi(form);
+
     // console.log(res);
     if (res.status >= 200 && res.status < 300) {
-      message.success("添加成功");
-      showModal.value = false;
+      const res2 = await axios.post("http://localhost:4000/addPage", {
+        path: "/src/pages/" + form.path,
+      });
+      console.log(res2);
+      if (res2.code == 200) {
+        message.success("添加成功");
+        showModal.value = false;
+        // reload();
+      } else {
+        message.error("添加失败");
+      }
+
       // getMenuList();
-      reload();
     } else {
       message.error("添加失败");
     }

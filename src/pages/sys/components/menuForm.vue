@@ -17,7 +17,7 @@
       />
     </n-form-item>
     <n-form-item label="路由">
-      <n-input v-model:value="form.path" placeholder="请输入路由"></n-input>
+      <n-input :disabled="props.isEdit?true:false" v-model:value="form.path" placeholder="请输入路由"></n-input>
     </n-form-item>
     <n-form-item label="页面">
       <n-input
@@ -69,7 +69,7 @@ import {menuList} from "@/data/menu.js";
 import { toTree } from "../../../utils/toTree";
 import { cloneDeep } from "lodash";
 
-const props=defineProps({form:{}})
+const props=defineProps({form:{},isEdit:{type:Boolean,default:false}})
 
 const reactiveData=reactive({
   menuList:[]

@@ -19,9 +19,9 @@ json-server: https://github.com/typicode/json-server
 
 ## 启动
 
-`npm run dev`(前端)
-`npm run mock`(json-server)
-`npm run service`(node)
+- `npm run dev`(前端)
+- `npm run mock`(json-server)
+- `npm run service`(node)
 
 ## 打包
 

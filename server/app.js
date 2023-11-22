@@ -4,7 +4,7 @@ const app = new Koa();
 const path = require("path");
 const Router = require("koa-router");
 const router = new Router();
-const {koaBody}=require('koa-body')
+const { koaBody } = require("koa-body");
 const cors = require("koa2-cors");
 app.use(
   cors({
@@ -22,7 +22,7 @@ app.use(
     // exposeHeaders: ["WWW-Authenticate", "Server-Authorization"], //设置获取其他自定义字段
   })
 );
-app.use(koaBody())
+app.use(koaBody());
 app.use(router.routes());
 router.post("/addPage", async (ctx) => {
   // return console.log(ctx.request.body)
@@ -35,28 +35,22 @@ router.post("/addPage", async (ctx) => {
     };
     return;
   }
-  fs.writeFile(
-    path.join(__dirname,'..', param.path.replace(/^\/\/$/g, "/") + ".vue"),
-    `<template><div>new page</div></template>`,
-    (err) => {
-      console.log(err,42)
-      if (err) {
-        
-        ctx.body = JSON.stringify({
-          code: 400,
-          msg: "create file error",
-        });
-        return
-      }
-      ctx.body = JSON.stringify({
-        code: 200,
-        msg: "success",
-      });
-    }
-  );
+  try {
+    fs.writeFileSync(
+      path.join(__dirname, "..", param.path.replace(/^\/\/$/g, "/") + ".vue"),
+      `<template><div>new page</div></template>`
+    );
+    ctx.body = JSON.stringify({
+      code: 200,
+      msg: "success",
+    });
+  } catch (error) {
+    ctx.body = JSON.stringify({
+      code: 400,
+      msg: "create file error",
+    });
+  }
 });
-
-
 
 app.listen(4000, () => {
   console.log("server is running at http://localhost:4000/");

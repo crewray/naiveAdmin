@@ -264,18 +264,6 @@
       },
       "icon": "Bars",
       "component": "/src/pages/sys/menu.vue"
-    },
-    {
-      "icon": "AngryRegular",
-      "name": "test1",
-      "title": "test1",
-      "path": "/form/test",
-      "component": "/src/pages//form/test.vue",
-      "pid": 3,
-      "meta": {
-        "title": "test1"
-      },
-      "id": 16
     }
   ]
 }
